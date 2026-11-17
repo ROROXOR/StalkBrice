@@ -414,7 +414,8 @@
       margin-bottom: 1.25rem;
       overflow: hidden;
     }
-    details.data-drawer > summary {
+
+    details.data-drawer>summary {
       list-style: none;
       cursor: pointer;
       padding: 0.65rem 1.1rem;
@@ -426,15 +427,33 @@
       user-select: none;
       transition: 0.15s;
     }
-    details.data-drawer > summary::-webkit-details-marker { display: none; }
-    details.data-drawer > summary:hover { color: var(--text); background: rgba(255, 255, 255, 0.02); }
-    details.data-drawer[open] > summary {
+
+    details.data-drawer>summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.data-drawer>summary:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    details.data-drawer[open]>summary {
       border-bottom: 1px solid var(--border);
       color: var(--text);
     }
-    .drawer-chevron { transition: transform 0.2s; font-size: 0.75rem; }
-    details.data-drawer[open] .drawer-chevron { transform: rotate(180deg); }
-    .drawer-body { padding: 1rem; }
+
+    .drawer-chevron {
+      transition: transform 0.2s;
+      font-size: 0.75rem;
+    }
+
+    details.data-drawer[open] .drawer-chevron {
+      transform: rotate(180deg);
+    }
+
+    .drawer-body {
+      padding: 1rem;
+    }
 
     /* MAIN VIEW TABS */
     .mode-tabs {
@@ -443,6 +462,7 @@
       gap: 0.75rem;
       margin-bottom: 1.25rem;
     }
+
     .mode-tab {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -456,14 +476,30 @@
       flex-direction: column;
       gap: 0.25rem;
     }
-    .mode-tab:hover { border-color: var(--accent); }
+
+    .mode-tab:hover {
+      border-color: var(--accent);
+    }
+
     .mode-tab.active {
       border-color: var(--accent);
       background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(30, 41, 59, 0.95));
       box-shadow: 0 0 0 1px var(--accent);
     }
-    .mode-tab-title { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
-    .mode-tab-desc { font-size: 0.8rem; color: var(--muted); }
+
+    .mode-tab-title {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mode-tab-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
     .compare-bar {
       background: var(--panel-alt);
       border: 1px solid var(--border);
@@ -476,12 +512,14 @@
       justify-content: space-between;
       gap: 1rem;
     }
+
     .insight-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-bottom: 0.85rem;
     }
+
     .insight-chip {
       font-size: 0.78rem;
       padding: 0.3rem 0.65rem;
@@ -537,7 +575,8 @@
     <!-- COLLAPSIBLE IMPORT / BACKUP ZONES (collapsed by default) -->
     <details class="data-drawer" id="data-drawer">
       <summary>
-        <span>⚙️ <strong>Gestion des fichiers & Sauvegardes</strong> — Importer des exports LinkedIn (<code>.xlsx</code>) ou exporter / recharger la base complète (<code>.json</code>)</span>
+        <span>⚙️ <strong>Gestion des fichiers & Sauvegardes</strong> — Importer des exports LinkedIn
+          (<code>.xlsx</code>) ou exporter / recharger la base complète (<code>.json</code>)</span>
         <span class="drawer-chevron">▼ Afficher / Réduire</span>
       </summary>
       <div class="drawer-body">
@@ -547,7 +586,8 @@
             <div class="panel-header" style="margin-bottom:0.65rem;">
               <div>
                 <div class="panel-title">📥 Import classique d'exports LinkedIn (.xlsx)</div>
-                <div class="panel-subtitle">Ajoute ou met à jour une version à partir d'un fichier Excel multi-onglets</div>
+                <div class="panel-subtitle">Ajoute ou met à jour une version à partir d'un fichier Excel multi-onglets
+                </div>
               </div>
               <label class="btn primary">
                 + Choisir .xlsx
@@ -564,7 +604,8 @@
             <div class="panel-header" style="margin-bottom:0.65rem;">
               <div>
                 <div class="panel-title">💾 Sauvegarde & Restauration de l'ensemble des données (.json)</div>
-                <div class="panel-subtitle" id="backup-status-line">Exporter toutes les versions chargées ou recharger une
+                <div class="panel-subtitle" id="backup-status-line">Exporter toutes les versions chargées ou recharger
+                  une
                   sauvegarde complète</div>
               </div>
             </div>
@@ -620,11 +661,13 @@
     <div class="mode-tabs">
       <button id="tab-btn-latest" class="mode-tab active">
         <div class="mode-tab-title">⚡ 1. Analyse : État le plus récent (Consolidé)</div>
-        <div class="mode-tab-desc">Photographie actuelle, historique journalier fusionné (dernière valeur connue par date), affinité Audience vs Contenu et catalogue consolidé des posts</div>
+        <div class="mode-tab-desc">Photographie actuelle, historique journalier fusionné (dernière valeur connue par
+          date), affinité Audience vs Contenu et catalogue consolidé des posts</div>
       </button>
       <button id="tab-btn-compare" class="mode-tab">
         <div class="mode-tab-title">🔄 2. Analyse : Comparaison par chargement</div>
-        <div class="mode-tab-desc">Duel entre deux chargements (A vs B), révision sur les dates en chevauchement, gain d'impressions/interactions par post et trajectoire multi-exports</div>
+        <div class="mode-tab-desc">Duel entre deux chargements (A vs B), révision sur les dates en chevauchement, gain
+          d'impressions/interactions par post et trajectoire multi-exports</div>
       </button>
     </div>
 
@@ -639,7 +682,8 @@
         <div class="panel-header">
           <div>
             <div class="panel-title">📈 Chronologie quotidienne consolidée (État le plus récent par jour)</div>
-            <div class="panel-subtitle" id="latest-timeline-subtitle">Fusion de tous les jours suivis en retenant la version la plus récente en cas de chevauchement</div>
+            <div class="panel-subtitle" id="latest-timeline-subtitle">Fusion de tous les jours suivis en retenant la
+              version la plus récente en cas de chevauchement</div>
           </div>
         </div>
         <div class="chart-box">
@@ -651,8 +695,10 @@
       <div class="panel">
         <div class="panel-header">
           <div>
-            <div class="panel-title">👥 Diagnostic Démographique : Audience (Abonnés) vs Contenu (Personnes touchées)</div>
-            <div class="panel-subtitle">Identifie les segments où vos publications percent au-delà de votre base d'abonnés (état le plus récent)</div>
+            <div class="panel-title">👥 Diagnostic Démographique : Audience (Abonnés) vs Contenu (Personnes touchées)
+            </div>
+            <div class="panel-subtitle">Identifie les segments où vos publications percent au-delà de votre base
+              d'abonnés (état le plus récent)</div>
           </div>
           <div class="controls">
             <label for="demo-cat-select" style="font-size:0.82rem;color:var(--muted);">Catégorie :</label>
@@ -669,7 +715,8 @@
       <div class="panel" id="recent-posts-panel" style="display:none;">
         <div class="panel-header">
           <div>
-            <div class="panel-title">🆕 Focus : Posts des 7 derniers jours (Détail granulaire Réseau / Hors-Réseau / Vidéo)</div>
+            <div class="panel-title">🆕 Focus : Posts des 7 derniers jours (Détail granulaire Réseau / Hors-Réseau /
+              Vidéo)</div>
             <div class="panel-subtitle">Issu de l'onglet POSTS LES PLUS RÉCENTS le plus récent disponible</div>
           </div>
         </div>
@@ -699,7 +746,8 @@
         <div class="panel-header">
           <div>
             <div class="panel-title">🏆 Catalogue consolidé des Posts (Dernier état connu par publication)</div>
-            <div class="panel-subtitle">Fusionne tous les posts rencontrés avec leur niveau d'impressions et d'interactions le plus récent</div>
+            <div class="panel-subtitle">Fusionne tous les posts rencontrés avec leur niveau d'impressions et
+              d'interactions le plus récent</div>
           </div>
         </div>
         <div class="table-wrap">
@@ -726,14 +774,17 @@
     <div id="view-compare" style="display:none;">
       <div class="compare-bar">
         <div class="controls">
-          <label for="compare-select-a" style="font-size:0.84rem;font-weight:600;color:var(--accent);">Chargement A (Observé) :</label>
+          <label for="compare-select-a" style="font-size:0.84rem;font-weight:600;color:var(--accent);">Chargement A
+            (Observé) :</label>
           <select id="compare-select-a" class="version-select"></select>
           <span style="color:var(--muted);font-weight:700;">VS</span>
-          <label for="compare-select-b" style="font-size:0.84rem;font-weight:600;color:var(--amber);">Chargement B (Référence) :</label>
+          <label for="compare-select-b" style="font-size:0.84rem;font-weight:600;color:var(--amber);">Chargement B
+            (Référence) :</label>
           <select id="compare-select-b" class="version-select"></select>
         </div>
         <div class="controls">
-          <button id="btn-delete-version" class="btn danger" title="Supprimer le chargement A sélectionné">🗑️ Supprimer Chargement A</button>
+          <button id="btn-delete-version" class="btn danger" title="Supprimer le chargement A sélectionné">🗑️ Supprimer
+            Chargement A</button>
         </div>
       </div>
 
@@ -746,7 +797,8 @@
           <div class="panel-header">
             <div>
               <div class="panel-title">🔍 Comparaison jour par jour & Jours en chevauchement (A vs B)</div>
-              <div class="panel-subtitle" id="overlap-subtitle">Mise en évidence des écarts de mesure sur les dates communes aux deux chargements</div>
+              <div class="panel-subtitle" id="overlap-subtitle">Mise en évidence des écarts de mesure sur les dates
+                communes aux deux chargements</div>
             </div>
           </div>
           <div class="chart-box">
@@ -772,7 +824,8 @@
         <div class="panel-header">
           <div>
             <div class="panel-title">🚀 Progression par Post entre le Chargement B et le Chargement A</div>
-            <div class="panel-subtitle">Mesure le gain net d'impressions et d'interactions de chaque publication entre les deux exports</div>
+            <div class="panel-subtitle">Mesure le gain net d'impressions et d'interactions de chaque publication entre
+              les deux exports</div>
           </div>
         </div>
         <div class="table-wrap">
@@ -1381,7 +1434,15 @@
       const audList = active.demoAudience[category] || [];
       const cntList = active.demoContent[category] || [];
       const itemsSet = new Set([...audList.map((x) => x.item), ...cntList.map((x) => x.item)]);
-      const items = Array.from(itemsSet).slice(0, 12);
+      let items = Array.from(itemsSet);
+      if (category.toLowerCase().includes("taille")) {
+        const sizeOrder = (s) => {
+          const m = String(s).replace(/[\s\u00A0\u202F]+/g, "").match(/\d+/);
+          return m ? parseInt(m[0], 10) : Number.MAX_SAFE_INTEGER;
+        };
+        items.sort((a, b) => sizeOrder(a) - sizeOrder(b));
+      }
+      items = items.slice(0, 12);
 
       const audData = items.map((it) => {
         const found = audList.find((x) => x.item === it);
@@ -1738,10 +1799,10 @@
           const roleBadge = isA
             ? '<span class="badge green">Chargement A</span>'
             : isB
-            ? '<span class="badge" style="color:var(--amber);border-color:var(--amber);">Chargement B</span>'
-            : idx === 0
-            ? '<span class="sheet-pill">Plus récent</span>'
-            : '<span class="sheet-pill">Archive</span>';
+              ? '<span class="badge" style="color:var(--amber);border-color:var(--amber);">Chargement B</span>'
+              : idx === 0
+                ? '<span class="sheet-pill">Plus récent</span>'
+                : '<span class="sheet-pill">Archive</span>';
           return `
           <tr style="cursor:pointer;${isA ? "background:rgba(56,189,248,0.1);" : isB ? "background:rgba(251,191,36,0.07);" : ""}" data-vid="${v.id}">
             <td>${roleBadge}</td>
