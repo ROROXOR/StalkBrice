@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,7 +21,13 @@
       --red: #f87171;
       --border: #334155;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
@@ -28,8 +35,15 @@
       min-height: 100vh;
       line-height: 1.45;
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
 
     /* AUTH SCREEN */
     #auth-overlay {
@@ -42,6 +56,7 @@
       z-index: 9999;
       padding: 1rem;
     }
+
     .auth-card {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -49,13 +64,34 @@
       padding: 2rem;
       width: 100%;
       max-width: 420px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
-    .auth-card h1 { font-size: 1.4rem; margin-bottom: 0.35rem; }
-    .auth-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
-    .auth-field { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
-    .auth-field label { font-size: 0.82rem; color: var(--muted); }
-    .auth-field input[type="password"], .auth-field input[type="text"] {
+
+    .auth-card h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .auth-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .auth-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .auth-field label {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .auth-field input[type="password"],
+    .auth-field input[type="text"] {
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--text);
@@ -64,8 +100,18 @@
       font-size: 0.95rem;
       outline: none;
     }
-    .auth-field input:focus { border-color: var(--accent); }
-    .auth-error { color: var(--red); font-size: 0.85rem; min-height: 1.2rem; margin-bottom: 0.5rem; }
+
+    .auth-field input:focus {
+      border-color: var(--accent);
+    }
+
+    .auth-error {
+      color: var(--red);
+      font-size: 0.85rem;
+      min-height: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
     .auth-json-row {
       margin-top: 1rem;
       padding-top: 0.85rem;
@@ -78,7 +124,13 @@
     }
 
     /* MAIN APP */
-    #app { display: none; max-width: 1440px; margin: 0 auto; padding: 1.25rem; }
+    #app {
+      display: none;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
     header {
       display: flex;
       flex-wrap: wrap;
@@ -91,7 +143,14 @@
       padding: 1rem 1.25rem;
       margin-bottom: 1.25rem;
     }
-    .brand h1 { font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
     .badge {
       font-size: 0.72rem;
       padding: 0.18rem 0.55rem;
@@ -101,14 +160,26 @@
       border: 1px solid rgba(56, 189, 248, 0.35);
       font-weight: 600;
     }
+
     .badge.green {
       background: rgba(52, 211, 153, 0.15);
       color: var(--green);
       border-color: rgba(52, 211, 153, 0.35);
     }
-    .brand p { color: var(--muted); font-size: 0.82rem; margin-top: 0.2rem; }
 
-    .controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+    .brand p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 0.2rem;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
     .btn {
       background: var(--panel-alt);
       color: var(--text);
@@ -122,20 +193,30 @@
       align-items: center;
       gap: 0.4rem;
     }
-    .btn:hover { border-color: var(--accent); }
+
+    .btn:hover {
+      border-color: var(--accent);
+    }
+
     .btn.primary {
       background: var(--accent);
       color: #0f172a;
       border-color: var(--accent);
       font-weight: 600;
     }
+
     .btn.active-mode {
       background: rgba(52, 211, 153, 0.18);
       border-color: var(--green);
       color: var(--green);
       font-weight: 600;
     }
-    .btn.danger:hover { border-color: var(--red); color: var(--red); }
+
+    .btn.danger:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
     select.version-select {
       background: var(--bg);
       color: var(--text);
@@ -159,6 +240,7 @@
       transition: 0.15s;
       cursor: pointer;
     }
+
     .dropzone.dragover {
       border-color: var(--accent);
       background: rgba(56, 189, 248, 0.08);
@@ -172,19 +254,57 @@
       gap: 1rem;
       margin-bottom: 1.25rem;
     }
+
     .kpi-card {
       background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1rem 1.15rem;
     }
-    .kpi-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-    .kpi-val { font-size: 1.75rem; font-weight: 700; margin: 0.25rem 0; }
-    .kpi-sub { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
-    .delta { font-weight: 600; padding: 0.1rem 0.4rem; border-radius: 5px; font-size: 0.75rem; }
-    .delta.up { color: var(--green); background: rgba(52, 211, 153, 0.12); }
-    .delta.down { color: var(--red); background: rgba(248, 113, 113, 0.12); }
-    .delta.flat { color: var(--muted); background: rgba(148, 163, 184, 0.12); }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .kpi-val {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0.25rem 0;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .delta {
+      font-weight: 600;
+      padding: 0.1rem 0.4rem;
+      border-radius: 5px;
+      font-size: 0.75rem;
+    }
+
+    .delta.up {
+      color: var(--green);
+      background: rgba(52, 211, 153, 0.12);
+    }
+
+    .delta.down {
+      color: var(--red);
+      background: rgba(248, 113, 113, 0.12);
+    }
+
+    .delta.flat {
+      color: var(--muted);
+      background: rgba(148, 163, 184, 0.12);
+    }
 
     /* PANELS & CHARTS */
     .grid-2 {
@@ -193,6 +313,7 @@
       gap: 1.25rem;
       margin-bottom: 1.25rem;
     }
+
     .panel {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -200,6 +321,7 @@
       padding: 1.15rem;
       margin-bottom: 1.25rem;
     }
+
     .panel-header {
       display: flex;
       flex-wrap: wrap;
@@ -208,21 +330,57 @@
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
-    .panel-title { font-size: 1rem; font-weight: 600; }
-    .panel-subtitle { font-size: 0.8rem; color: var(--muted); }
-    .chart-box { position: relative; height: 290px; width: 100%; }
+
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .panel-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .chart-box {
+      position: relative;
+      height: 290px;
+      width: 100%;
+    }
 
     /* TABLES */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
-    th, td {
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    th,
+    td {
       padding: 0.6rem 0.75rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
-    th { color: var(--muted); font-weight: 600; font-size: 0.76rem; text-transform: uppercase; }
-    tr:hover td { background: rgba(255,255,255,0.02); }
-    .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
     .notes-list {
       margin-top: 0.75rem;
       display: flex;
@@ -231,7 +389,14 @@
       font-size: 0.82rem;
       color: var(--amber);
     }
-    .sheet-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+
+    .sheet-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
     .sheet-pill {
       font-size: 0.72rem;
       padding: 0.15rem 0.5rem;
@@ -240,25 +405,60 @@
       border: 1px solid var(--border);
       color: var(--muted);
     }
+
+    /* COLLAPSIBLE DATA DRAWER */
+    details.data-drawer {
+      background: rgba(30, 41, 59, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+    details.data-drawer > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.65rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+      user-select: none;
+      transition: 0.15s;
+    }
+    details.data-drawer > summary::-webkit-details-marker { display: none; }
+    details.data-drawer > summary:hover { color: var(--text); background: rgba(255, 255, 255, 0.02); }
+    details.data-drawer[open] > summary {
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .drawer-chevron { transition: transform 0.2s; font-size: 0.75rem; }
+    details.data-drawer[open] .drawer-chevron { transform: rotate(180deg); }
+    .drawer-body { padding: 1rem; }
+
     @media (max-width: 600px) {
-      .grid-2 { grid-template-columns: 1fr; }
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- AUTHENTICATION OVERLAY -->
   <div id="auth-overlay">
     <div class="auth-card">
       <h1>🔒 StalkBrice Analytics</h1>
-      <p>Authentification requise via <code>auth.json</code> pour accéder au tableau de bord.</p>
       <form id="auth-form">
         <div class="auth-field">
           <label for="auth-pwd">Mot de passe</label>
-          <input type="password" id="auth-pwd" placeholder="Renseigner le mot de passe..." autocomplete="current-password" required />
+          <input type="password" id="auth-pwd" placeholder="Renseigner le mot de passe..."
+            autocomplete="current-password" required />
         </div>
         <div class="auth-error" id="auth-error"></div>
-        <button type="submit" class="btn primary" style="width:100%;justify-content:center;">Déverrouiller l'interface</button>
+        <button type="submit" class="btn primary" style="width:100%;justify-content:center;">Déverrouiller
+          l'interface</button>
       </form>
     </div>
   </div>
@@ -284,47 +484,57 @@
       </div>
     </header>
 
-    <!-- SEPARATED IMPORT / BACKUP ZONES -->
-    <div class="grid-2">
-      <!-- ZONE 1: Classic .xlsx Import -->
-      <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
-        <div class="panel-header" style="margin-bottom:0.65rem;">
-          <div>
-            <div class="panel-title">📥 Import classique d'exports LinkedIn (.xlsx)</div>
-            <div class="panel-subtitle">Ajoute ou met à jour une version à partir d'un fichier Excel multi-onglets</div>
+    <!-- COLLAPSIBLE IMPORT / BACKUP ZONES (collapsed by default) -->
+    <details class="data-drawer" id="data-drawer">
+      <summary>
+        <span>⚙️ <strong>Gestion des fichiers & Sauvegardes</strong> — Importer des exports LinkedIn (<code>.xlsx</code>) ou exporter / recharger la base complète (<code>.json</code>)</span>
+        <span class="drawer-chevron">▼ Afficher / Réduire</span>
+      </summary>
+      <div class="drawer-body">
+        <div class="grid-2" style="margin-bottom:0;">
+          <!-- ZONE 1: Classic .xlsx Import -->
+          <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
+            <div class="panel-header" style="margin-bottom:0.65rem;">
+              <div>
+                <div class="panel-title">📥 Import classique d'exports LinkedIn (.xlsx)</div>
+                <div class="panel-subtitle">Ajoute ou met à jour une version à partir d'un fichier Excel multi-onglets</div>
+              </div>
+              <label class="btn primary">
+                + Choisir .xlsx
+                <input type="file" id="xlsx-input" accept=".xlsx,.xls" multiple style="display:none" />
+              </label>
+            </div>
+            <div id="dropzone" class="dropzone" style="margin-bottom:0;">
+              Glissez-déposez un ou plusieurs fichiers <strong>.xlsx</strong> (ex. depuis <code>DataIn/</code>) ici
+            </div>
           </div>
-          <label class="btn primary">
-            + Choisir .xlsx
-            <input type="file" id="xlsx-input" accept=".xlsx,.xls" multiple style="display:none" />
-          </label>
-        </div>
-        <div id="dropzone" class="dropzone" style="margin-bottom:0;">
-          Glissez-déposez un ou plusieurs fichiers <strong>.xlsx</strong> (ex. depuis <code>DataIn/</code>) ici
-        </div>
-      </div>
 
-      <!-- ZONE 2: Full Dataset Export / Reload (.json) -->
-      <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
-        <div class="panel-header" style="margin-bottom:0.65rem;">
-          <div>
-            <div class="panel-title">💾 Sauvegarde & Restauration de l'ensemble des données (.json)</div>
-            <div class="panel-subtitle" id="backup-status-line">Exporter toutes les versions chargées ou recharger une sauvegarde complète</div>
+          <!-- ZONE 2: Full Dataset Export / Reload (.json) -->
+          <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
+            <div class="panel-header" style="margin-bottom:0.65rem;">
+              <div>
+                <div class="panel-title">💾 Sauvegarde & Restauration de l'ensemble des données (.json)</div>
+                <div class="panel-subtitle" id="backup-status-line">Exporter toutes les versions chargées ou recharger une
+                  sauvegarde complète</div>
+              </div>
+            </div>
+            <div class="controls" style="justify-content:flex-start;gap:0.65rem;padding-top:0.25rem;">
+              <button id="btn-export-all" class="btn primary"
+                title="Télécharger toutes les versions chargées dans un fichier JSON">
+                📤 Exporter toutes les données (.json)
+              </button>
+              <label class="btn" title="Recharger un fichier JSON contenant l'ensemble des versions">
+                📂 Recharger une sauvegarde (.json)
+                <input type="file" id="json-backup-input" accept=".json" style="display:none" />
+              </label>
+              <button id="btn-reset-seed" class="btn" title="Réinitialiser avec les 2 fichiers d'exemple DataIn">
+                🔄 Réinitialiser (DataIn)
+              </button>
+            </div>
           </div>
         </div>
-        <div class="controls" style="justify-content:flex-start;gap:0.65rem;padding-top:0.25rem;">
-          <button id="btn-export-all" class="btn primary" title="Télécharger toutes les versions chargées dans un fichier JSON">
-            📤 Exporter toutes les données (.json)
-          </button>
-          <label class="btn" title="Recharger un fichier JSON contenant l'ensemble des versions">
-            📂 Recharger une sauvegarde (.json)
-            <input type="file" id="json-backup-input" accept=".json" style="display:none" />
-          </label>
-          <button id="btn-reset-seed" class="btn" title="Réinitialiser avec les 2 fichiers d'exemple DataIn">
-            🔄 Réinitialiser (DataIn)
-          </button>
-        </div>
       </div>
-    </div>
+    </details>
 
     <!-- KPI CARDS -->
     <section class="kpi-grid" id="kpi-grid"></section>
@@ -361,7 +571,8 @@
       <div class="panel-header">
         <div>
           <div class="panel-title">👥 Démographie : Audience (Abonnés) vs Contenu (Personnes touchées)</div>
-          <div class="panel-subtitle">Comparaison côte à côte des onglets DONNÉES DÉMOGRAPHIQUES SUR L’AUDIENCE et SUR LE CONTENU</div>
+          <div class="panel-subtitle">Comparaison côte à côte des onglets DONNÉES DÉMOGRAPHIQUES SUR L’AUDIENCE et SUR
+            LE CONTENU</div>
         </div>
         <div class="controls">
           <label for="demo-cat-select" style="font-size:0.82rem;color:var(--muted);">Catégorie :</label>
@@ -378,7 +589,8 @@
       <div class="panel-header">
         <div>
           <div class="panel-title">🆕 Posts les plus récents (Détail granulaire 7 derniers jours)</div>
-          <div class="panel-subtitle">Onglet POSTS LES PLUS RÉCENTS (réseau/hors réseau, vues vidéo, réactions, commentaires, republications)</div>
+          <div class="panel-subtitle">Onglet POSTS LES PLUS RÉCENTS (réseau/hors réseau, vues vidéo, réactions,
+            commentaires, republications)</div>
         </div>
       </div>
       <div class="table-wrap">
@@ -407,7 +619,8 @@
       <div class="panel-header">
         <div>
           <div class="panel-title">🏆 Meilleurs Posts sur la période</div>
-          <div class="panel-subtitle">Onglet MEILLEURS POSTS (fusion du classement par Impressions et par Interactions)</div>
+          <div class="panel-subtitle">Onglet MEILLEURS POSTS (fusion du classement par Impressions et par Interactions)
+          </div>
         </div>
       </div>
       <div class="table-wrap">
@@ -431,7 +644,8 @@
       <div class="panel-header">
         <div>
           <div class="panel-title">🕒 Historique des versions & Notes détectées dans les onglets</div>
-          <div class="panel-subtitle">Tri automatique par date de fin de période puis ordre d'import (cliquez sur une ligne pour inspecter la version)</div>
+          <div class="panel-subtitle">Tri automatique par date de fin de période puis ordre d'import (cliquez sur une
+            ligne pour inspecter la version)</div>
         </div>
       </div>
       <div class="table-wrap">
@@ -474,7 +688,7 @@
             expectedPassword = data.password.trim();
           }
         }
-      } catch (_) {}
+      } catch (_) { }
     }
 
     function unlockApp() {
@@ -505,7 +719,7 @@
     // =========================================================================
     // 2. MULTI-SHEET XLSX PARSER & NORMALIZER
     // =========================================================================
-    const SEED_RAW_FILES = [{"fileName": "AggregateAnalytics_Brice Piednoir_2026-11-10_2026-11-16-2_TELEPHONE.xlsx", "importedAt": 1794930000000, "sheets": {"DÉCOUVERTE": [["Performance globale", "10/11/2026 - 16/11/2026"], ["Impressions", "4624"], ["Membres touchés", "3168"]], "ENGAGEMENT": [["Date", "Impressions", "Interactions"], ["10/11/2026", "3", "0"], ["11/11/2026", "185", "1"], ["12/11/2026", "159", "1"], ["13/11/2026", "973", "8"], ["14/11/2026", "458", "0"], ["15/11/2026", "1130", "1"], ["16/11/2026", "1716", "3"]], "MEILLEURS POSTS": [["50 posts disponibles au maximum, à inclure dans cette liste"], [], ["URL du post", "Date de publication du post", "Interactions", "", "URL du post", "Date de publication du post", "Impressions"], ["https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "10", "", "https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "4063"], ["https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "2", "", "https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "236"], ["https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "156"], ["https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "138"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_un-samedi-soir-sur-la-terre-comme-chantait-ugcPost-7517952941744599040-mGle", "19/10/2026", "5"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_en-route-vers-le-forum-s%C3%A9isme-%C3%A0-rennes-share-7516098081508057089-I23w", "14/10/2026", "4"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_et-voil%C3%A0-le-r%C3%A9sultat-merci-httpslnkdin-share-7523505806617780225-GdMj", "3/11/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_aller-on-fait-%C3%A7a-avec-une-belle-vid%C3%A9o-le-ugcPost-7478870002490720256-1pDN", "3/7/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_les-tentatives-de-r%C3%A9gression-sencha%C3%AEnent-ugcPost-7263096496579907585--gjl", "15/11/2024", "1"]], "ABONNÉS": [["Nombre total d’abonnés le 16/11/2026", "4923"], [], ["Date", "Nouveaux abonnés"], ["10/11/2026", "1"], ["11/11/2026", "1"], ["12/11/2026", "2"], ["13/11/2026", "2"], ["14/11/2026", "0"], ["15/11/2026", "0"], ["16/11/2026", "7"]], "DONNÉES DÉMOGRAPHIQUES SUR L’AU": [["Principales données démographiques", "Valeur", "Pourcentage"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "S3d Ingénierie", "< 1%"], ["Entreprise", "ADEME", "< 1%"], ["Entreprise", "SUEZ", "< 1%"], ["Entreprise", "Reliance Industries Limited", "< 1%"], ["Entreprise", "CIRAD", "< 1%"], ["Entreprise", "Nantes Métropole", "< 1%"], ["Entreprise", "TotalEnergies", "< 1%"], ["Entreprise", "Air Liquide", "< 1%"], ["Entreprise", "ExxonMobil", "< 1%"], ["Lieu", "Paris et périphérie", "17 %"], ["Lieu", "Nantes et périphérie", "8 %"], ["Lieu", "Lyon et périphérie", "3 %"], ["Lieu", "Montpellier et périphérie", "2 %"], ["Lieu", "Rennes et périphérie", "2 %"], ["Lieu", "Toulouse et périphérie", "2 %"], ["Lieu", "Marseille et périphérie", "1 %"], ["Lieu", "Bordeaux et périphérie", "1 %"], ["Lieu", "Lille et périphérie", "1 %"], ["Lieu", "Montréal et périphérie", "1 %"], ["Taille de l’entreprise", "2 - 10 employés", "18 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "10 %"], ["Taille de l’entreprise", "51 - 200 employés", "9 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "8 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "0 - 1 employés", "5 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Taille de l’entreprise", "5 001 - 10 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "33 %"], ["Niveau hiérarchique", "Premier emploi", "20 %"], ["Niveau hiérarchique", "Directeur", "10 %"], ["Niveau hiérarchique", "Manager", "7 %"], ["Niveau hiérarchique", "PDG", "7 %"], ["Niveau hiérarchique", "Propriétaire", "6 %"], ["Niveau hiérarchique", "VP", "3 %"], ["Niveau hiérarchique", "Partenaire", "2 %"], ["Niveau hiérarchique", "Stagiaire", "< 1%"], ["Poste", "Fondateur", "4 %"], ["Poste", "Co-fondateur", "3 %"], ["Poste", "Responsable de projet", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "PDG", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Professeur", "< 1%"], ["Poste", "Ingénieur processus", "< 1%"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "10 %"], ["Secteur", "Services de conseil en environnement", "8 %"], ["Secteur", "Services et conseil aux entreprises", "8 %"], ["Secteur", "Industrie pétrolière et gazière", "5 %"], ["Secteur", "Enseignement supérieur", "3 %"], ["Secteur", "Services de recherche", "3 %"], ["Secteur", "Fabrication de produits chimiques", "3 %"], ["Secteur", "Fabrication de machines industrielles", "3 %"], ["Secteur", "Services et conseil en informatique", "2 %"], ["Secteur", "Administration publique", "2 %"]], "DONNÉES DÉMOGRAPHIQUES SUR LE C": [["Principales données démographiques", "Valeur", "Pourcentage"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "Sciences Po", "< 1%"], ["Entreprise", "Capgemini", "< 1%"], ["Entreprise", "Ministère des Armées", "< 1%"], ["Entreprise", "Natixis Corporate & Investment Banking", "< 1%"], ["Lieu", "Paris et périphérie", "42 %"], ["Lieu", "Lyon et périphérie", "5 %"], ["Lieu", "Bruxelles et périphérie", "4 %"], ["Lieu", "Nantes et périphérie", "2 %"], ["Lieu", "Genève et périphérie", "2 %"], ["Lieu", "Bordeaux et périphérie", "2 %"], ["Lieu", "Toulouse et périphérie", "2 %"], ["Lieu", "Marseille et périphérie", "2 %"], ["Lieu", "Lausanne et périphérie", "2 %"], ["Taille de l’entreprise", "2 - 10 employés", "20 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "12 %"], ["Taille de l’entreprise", "51 - 200 employés", "10 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "9 %"], ["Taille de l’entreprise", "0 - 1 employés", "6 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "27 %"], ["Niveau hiérarchique", "Premier emploi", "14 %"], ["Niveau hiérarchique", "Directeur", "14 %"], ["Niveau hiérarchique", "PDG", "11 %"], ["Niveau hiérarchique", "Propriétaire", "9 %"], ["Niveau hiérarchique", "Manager", "8 %"], ["Niveau hiérarchique", "Partenaire", "4 %"], ["Niveau hiérarchique", "VP", "4 %"], ["Poste", "Fondateur", "7 %"], ["Poste", "Co-fondateur", "5 %"], ["Poste", "PDG", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "Responsable de projet", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Professeur", "1 %"], ["Secteur", "Services et conseil aux entreprises", "9 %"], ["Secteur", "Services et conseil en informatique", "9 %"], ["Secteur", "Technologie, information et Internet", "5 %"], ["Secteur", "Services financiers", "5 %"], ["Secteur", "Développement de logiciels", "4 %"], ["Secteur", "Enseignement supérieur", "2 %"], ["Secteur", "Services de publicité", "2 %"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "2 %"], ["Secteur", "Services bancaires", "2 %"], ["Secteur", "Services de recherche", "2 %"]]}}, {"fileName": "AggregateAnalytics_Brice Piednoir_2026-11-11_2026-11-17.xlsx", "importedAt": 1794930001000, "sheets": {"DÉCOUVERTE": [["Performance globale", "11/11/2026 - 17/11/2026"], ["Impressions", "4718"], ["Membres touchés", "3192"], [], [], ["Impressions/membre", "1.4780701754385965"]], "ENGAGEMENT": [["Date", "Impressions", "Interactions", "", "Interactions : pouces + commentaires + repartage + clics sur le lien\nNote : chiffres stockés sous forme de texte"], ["11/11/2026", "185", "1"], ["12/11/2026", "159", "1"], ["13/11/2026", "973", "8"], ["14/11/2026", "458", "0"], ["15/11/2026", "1130", "1"], ["16/11/2026", "1737", "3"], ["17/11/2026", "76", "1"], [], ["Verif total", "4718", "15"]], "POSTS LES PLUS RÉCENTS": [["URL du post", "Date de publication du post", "Type de post", "Impressions", "Impressions (dans le réseau)", "Impressions (hors réseau)", "Membres touchés", "Vues", "Temps de visionnage", "Temps de visionnage moyen", "Abonnés acquis", "Vues du profil", "Réactions", "Commentaires", "Republications", "Enregistrements", "Envois", "Interactions avec le bouton personnalisé"], ["https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "Article", "172", "90 %", "10 %", "105", "", "", "", "0", "0", "3", "0", "1", "0", "0", "0"], ["https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "Vidéo", "4104", "6 %", "94 %", "2974", "2153", "8 h 59 min", "15 s", "0", "1", "3", "7", "1", "0", "1", "0"], ["https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "Republier", "168", "97 %", "3 %", "105", "", "", "", "0", "1", "1", "0", "0", "0", "0", "0"], [], ["", "", "", "4444"], [], ["Posts les plus récents : les 7 derniers jours.\n\nNote : données intéressantes, différentes des \"Meilleurs posts\""], [], [], [], [], []], "MEILLEURS POSTS": [["50 posts disponibles au maximum, à inclure dans cette liste"], [], ["URL du post", "Date de publication du post", "Interactions", "", "URL du post", "Date de publication du post", "Impressions"], ["https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "10", "", "https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "4104"], ["https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "3", "", "https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "248"], ["https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "172"], ["https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "168"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_un-samedi-soir-sur-la-terre-comme-chantait-ugcPost-7517952941744599040-mGle", "19/10/2026", "9"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_en-route-vers-le-forum-s%C3%A9isme-%C3%A0-rennes-share-7516098081508057089-I23w", "14/10/2026", "5"], ["", "", "15", "", "https://www.linkedin.com/posts/brice-piednoir_aller-on-fait-%C3%A7a-avec-une-belle-vid%C3%A9o-le-ugcPost-7478870002490720256-1pDN", "3/7/2026", "4"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_grandir-avec-le-financement-participatif-ugcPost-7472685459157123072-9W0r", "16/6/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_et-voil%C3%A0-le-r%C3%A9sultat-merci-httpslnkdin-share-7523505806617780225-GdMj", "3/11/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_nous-sommes-lundi-15-juillet-2024-je-suis-ugcPost-7221825800428212224-V7e9", "24/7/2024", "1"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_les-tentatives-de-r%C3%A9gression-sencha%C3%AEnent-ugcPost-7263096496579907585--gjl", "15/11/2024", "1"], [], [], ["", "", "", "", "", "", "4718"]], "ABONNÉS": [["Nombre total d’abonnés le 17/11/2026", "4924", "", "Abonnés = relations de 1er degré + les \"+Suivre\" sur Linkedin"], [], ["Date", "Nouveaux abonnés"], ["11/11/2026", "1"], ["12/11/2026", "2"], ["13/11/2026", "2"], ["14/11/2026", "0"], ["15/11/2026", "0"], ["16/11/2026", "7"], ["17/11/2026", "1"]], "DONNÉES DÉMOGRAPHIQUES SUR L’AU": [["Principales données démographiques", "Valeur", "Pourcentage", "", "Données démographiques sur l'audience : les données démographiques sur les Abonnés"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "S3d Ingénierie", "< 1%"], ["Entreprise", "ADEME", "< 1%"], ["Entreprise", "SUEZ", "< 1%"], ["Entreprise", "Reliance Industries Limited", "< 1%"], ["Entreprise", "CIRAD", "< 1%"], ["Entreprise", "Nantes Métropole", "< 1%"], ["Entreprise", "TotalEnergies", "< 1%"], ["Entreprise", "Air Liquide", "< 1%"], ["Entreprise", "ExxonMobil", "< 1%"], ["Lieu", "Paris et périphérie", "0.17", "", "0.38000000000000012"], ["Lieu", "Nantes et périphérie", "0.08"], ["Lieu", "Lyon et périphérie", "0.03"], ["Lieu", "Montpellier et périphérie", "0.02"], ["Lieu", "Rennes et périphérie", "0.02"], ["Lieu", "Toulouse et périphérie", "0.02"], ["Lieu", "Marseille et périphérie", "0.01"], ["Lieu", "Bordeaux et périphérie", "0.01"], ["Lieu", "Lille et périphérie", "0.01"], ["Lieu", "Montréal et périphérie", "0.01"], ["Taille de l’entreprise", "2 - 10 employés", "18 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "10 %"], ["Taille de l’entreprise", "51 - 200 employés", "9 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "8 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "0 - 1 employés", "5 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Taille de l’entreprise", "5 001 - 10 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "33 %"], ["Niveau hiérarchique", "Premier emploi", "20 %"], ["Niveau hiérarchique", "Directeur", "10 %"], ["Niveau hiérarchique", "Manager", "7 %"], ["Niveau hiérarchique", "PDG", "7 %"], ["Niveau hiérarchique", "Propriétaire", "6 %"], ["Niveau hiérarchique", "VP", "3 %"], ["Niveau hiérarchique", "Partenaire", "2 %"], ["Niveau hiérarchique", "Stagiaire", "< 1%"], ["Poste", "Fondateur", "4 %"], ["Poste", "Co-fondateur", "3 %"], ["Poste", "Responsable de projet", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "PDG", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Professeur", "< 1%"], ["Poste", "Ingénieur processus", "< 1%"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "10 %"], ["Secteur", "Services de conseil en environnement", "8 %"], ["Secteur", "Services et conseil aux entreprises", "8 %"], ["Secteur", "Industrie pétrolière et gazière", "5 %"], ["Secteur", "Enseignement supérieur", "3 %"], ["Secteur", "Services de recherche", "3 %"], ["Secteur", "Fabrication de produits chimiques", "3 %"], ["Secteur", "Fabrication de machines industrielles", "3 %"], ["Secteur", "Services et conseil en informatique", "2 %"], ["Secteur", "Administration publique", "2 %"]], "DONNÉES DÉMOGRAPHIQUES SUR LE C": [["Principales données démographiques", "Valeur", "Pourcentage", "", "Données démographiques sur le contenu : les données démographiques sur les personnes qui ont vu les posts (les 4 718 Impressions, 3 192 et qqes membres touchés)\n\nNote : intéressant de voir la différence entre cette démographie et celle de l'audience"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "Sciences Po", "< 1%"], ["Entreprise", "Capgemini", "< 1%"], ["Entreprise", "Natixis Corporate & Investment Banking", "< 1%"], ["Lieu", "Paris et périphérie", "42 %"], ["Lieu", "Lyon et périphérie", "5 %"], ["Lieu", "Bruxelles et périphérie", "4 %"], ["Lieu", "Nantes et périphérie", "3 %"], ["Lieu", "Genève et périphérie", "2 %"], ["Lieu", "Bordeaux et périphérie", "2 %"], ["Lieu", "Toulouse et périphérie", "2 %"], ["Lieu", "Lausanne et périphérie", "2 %"], ["Lieu", "Marseille et périphérie", "2 %"], ["Taille de l’entreprise", "2 - 10 employés", "20 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "12 %"], ["Taille de l’entreprise", "51 - 200 employés", "10 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "9 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "0 - 1 employés", "6 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "27 %"], ["Niveau hiérarchique", "Premier emploi", "15 %"], ["Niveau hiérarchique", "Directeur", "14 %"], ["Niveau hiérarchique", "PDG", "11 %"], ["Niveau hiérarchique", "Propriétaire", "9 %"], ["Niveau hiérarchique", "Manager", "8 %"], ["Niveau hiérarchique", "Partenaire", "4 %"], ["Niveau hiérarchique", "VP", "4 %"], ["Poste", "Fondateur", "7 %"], ["Poste", "Co-fondateur", "5 %"], ["Poste", "PDG", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "Responsable de projet", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Professeur", "< 1%"], ["Secteur", "Services et conseil aux entreprises", "9 %"], ["Secteur", "Services et conseil en informatique", "9 %"], ["Secteur", "Technologie, information et Internet", "5 %"], ["Secteur", "Services financiers", "5 %"], ["Secteur", "Développement de logiciels", "4 %"], ["Secteur", "Enseignement supérieur", "2 %"], ["Secteur", "Services de publicité", "2 %"], ["Secteur", "Services bancaires", "2 %"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "2 %"], ["Secteur", "Services de recherche", "2 %"]]}}];
+    const SEED_RAW_FILES = [{ "fileName": "AggregateAnalytics_Brice Piednoir_2026-11-10_2026-11-16-2_TELEPHONE.xlsx", "importedAt": 1794930000000, "sheets": { "DÉCOUVERTE": [["Performance globale", "10/11/2026 - 16/11/2026"], ["Impressions", "4624"], ["Membres touchés", "3168"]], "ENGAGEMENT": [["Date", "Impressions", "Interactions"], ["10/11/2026", "3", "0"], ["11/11/2026", "185", "1"], ["12/11/2026", "159", "1"], ["13/11/2026", "973", "8"], ["14/11/2026", "458", "0"], ["15/11/2026", "1130", "1"], ["16/11/2026", "1716", "3"]], "MEILLEURS POSTS": [["50 posts disponibles au maximum, à inclure dans cette liste"], [], ["URL du post", "Date de publication du post", "Interactions", "", "URL du post", "Date de publication du post", "Impressions"], ["https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "10", "", "https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "4063"], ["https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "2", "", "https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "236"], ["https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "156"], ["https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "138"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_un-samedi-soir-sur-la-terre-comme-chantait-ugcPost-7517952941744599040-mGle", "19/10/2026", "5"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_en-route-vers-le-forum-s%C3%A9isme-%C3%A0-rennes-share-7516098081508057089-I23w", "14/10/2026", "4"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_et-voil%C3%A0-le-r%C3%A9sultat-merci-httpslnkdin-share-7523505806617780225-GdMj", "3/11/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_aller-on-fait-%C3%A7a-avec-une-belle-vid%C3%A9o-le-ugcPost-7478870002490720256-1pDN", "3/7/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_les-tentatives-de-r%C3%A9gression-sencha%C3%AEnent-ugcPost-7263096496579907585--gjl", "15/11/2024", "1"]], "ABONNÉS": [["Nombre total d’abonnés le 16/11/2026", "4923"], [], ["Date", "Nouveaux abonnés"], ["10/11/2026", "1"], ["11/11/2026", "1"], ["12/11/2026", "2"], ["13/11/2026", "2"], ["14/11/2026", "0"], ["15/11/2026", "0"], ["16/11/2026", "7"]], "DONNÉES DÉMOGRAPHIQUES SUR L’AU": [["Principales données démographiques", "Valeur", "Pourcentage"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "S3d Ingénierie", "< 1%"], ["Entreprise", "ADEME", "< 1%"], ["Entreprise", "SUEZ", "< 1%"], ["Entreprise", "Reliance Industries Limited", "< 1%"], ["Entreprise", "CIRAD", "< 1%"], ["Entreprise", "Nantes Métropole", "< 1%"], ["Entreprise", "TotalEnergies", "< 1%"], ["Entreprise", "Air Liquide", "< 1%"], ["Entreprise", "ExxonMobil", "< 1%"], ["Lieu", "Paris et périphérie", "17 %"], ["Lieu", "Nantes et périphérie", "8 %"], ["Lieu", "Lyon et périphérie", "3 %"], ["Lieu", "Montpellier et périphérie", "2 %"], ["Lieu", "Rennes et périphérie", "2 %"], ["Lieu", "Toulouse et périphérie", "2 %"], ["Lieu", "Marseille et périphérie", "1 %"], ["Lieu", "Bordeaux et périphérie", "1 %"], ["Lieu", "Lille et périphérie", "1 %"], ["Lieu", "Montréal et périphérie", "1 %"], ["Taille de l’entreprise", "2 - 10 employés", "18 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "10 %"], ["Taille de l’entreprise", "51 - 200 employés", "9 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "8 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "0 - 1 employés", "5 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Taille de l’entreprise", "5 001 - 10 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "33 %"], ["Niveau hiérarchique", "Premier emploi", "20 %"], ["Niveau hiérarchique", "Directeur", "10 %"], ["Niveau hiérarchique", "Manager", "7 %"], ["Niveau hiérarchique", "PDG", "7 %"], ["Niveau hiérarchique", "Propriétaire", "6 %"], ["Niveau hiérarchique", "VP", "3 %"], ["Niveau hiérarchique", "Partenaire", "2 %"], ["Niveau hiérarchique", "Stagiaire", "< 1%"], ["Poste", "Fondateur", "4 %"], ["Poste", "Co-fondateur", "3 %"], ["Poste", "Responsable de projet", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "PDG", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Professeur", "< 1%"], ["Poste", "Ingénieur processus", "< 1%"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "10 %"], ["Secteur", "Services de conseil en environnement", "8 %"], ["Secteur", "Services et conseil aux entreprises", "8 %"], ["Secteur", "Industrie pétrolière et gazière", "5 %"], ["Secteur", "Enseignement supérieur", "3 %"], ["Secteur", "Services de recherche", "3 %"], ["Secteur", "Fabrication de produits chimiques", "3 %"], ["Secteur", "Fabrication de machines industrielles", "3 %"], ["Secteur", "Services et conseil en informatique", "2 %"], ["Secteur", "Administration publique", "2 %"]], "DONNÉES DÉMOGRAPHIQUES SUR LE C": [["Principales données démographiques", "Valeur", "Pourcentage"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "Sciences Po", "< 1%"], ["Entreprise", "Capgemini", "< 1%"], ["Entreprise", "Ministère des Armées", "< 1%"], ["Entreprise", "Natixis Corporate & Investment Banking", "< 1%"], ["Lieu", "Paris et périphérie", "42 %"], ["Lieu", "Lyon et périphérie", "5 %"], ["Lieu", "Bruxelles et périphérie", "4 %"], ["Lieu", "Nantes et périphérie", "2 %"], ["Lieu", "Genève et périphérie", "2 %"], ["Lieu", "Bordeaux et périphérie", "2 %"], ["Lieu", "Toulouse et périphérie", "2 %"], ["Lieu", "Marseille et périphérie", "2 %"], ["Lieu", "Lausanne et périphérie", "2 %"], ["Taille de l’entreprise", "2 - 10 employés", "20 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "12 %"], ["Taille de l’entreprise", "51 - 200 employés", "10 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "9 %"], ["Taille de l’entreprise", "0 - 1 employés", "6 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "27 %"], ["Niveau hiérarchique", "Premier emploi", "14 %"], ["Niveau hiérarchique", "Directeur", "14 %"], ["Niveau hiérarchique", "PDG", "11 %"], ["Niveau hiérarchique", "Propriétaire", "9 %"], ["Niveau hiérarchique", "Manager", "8 %"], ["Niveau hiérarchique", "Partenaire", "4 %"], ["Niveau hiérarchique", "VP", "4 %"], ["Poste", "Fondateur", "7 %"], ["Poste", "Co-fondateur", "5 %"], ["Poste", "PDG", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "Responsable de projet", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Professeur", "1 %"], ["Secteur", "Services et conseil aux entreprises", "9 %"], ["Secteur", "Services et conseil en informatique", "9 %"], ["Secteur", "Technologie, information et Internet", "5 %"], ["Secteur", "Services financiers", "5 %"], ["Secteur", "Développement de logiciels", "4 %"], ["Secteur", "Enseignement supérieur", "2 %"], ["Secteur", "Services de publicité", "2 %"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "2 %"], ["Secteur", "Services bancaires", "2 %"], ["Secteur", "Services de recherche", "2 %"]] } }, { "fileName": "AggregateAnalytics_Brice Piednoir_2026-11-11_2026-11-17.xlsx", "importedAt": 1794930001000, "sheets": { "DÉCOUVERTE": [["Performance globale", "11/11/2026 - 17/11/2026"], ["Impressions", "4718"], ["Membres touchés", "3192"], [], [], ["Impressions/membre", "1.4780701754385965"]], "ENGAGEMENT": [["Date", "Impressions", "Interactions", "", "Interactions : pouces + commentaires + repartage + clics sur le lien\nNote : chiffres stockés sous forme de texte"], ["11/11/2026", "185", "1"], ["12/11/2026", "159", "1"], ["13/11/2026", "973", "8"], ["14/11/2026", "458", "0"], ["15/11/2026", "1130", "1"], ["16/11/2026", "1737", "3"], ["17/11/2026", "76", "1"], [], ["Verif total", "4718", "15"]], "POSTS LES PLUS RÉCENTS": [["URL du post", "Date de publication du post", "Type de post", "Impressions", "Impressions (dans le réseau)", "Impressions (hors réseau)", "Membres touchés", "Vues", "Temps de visionnage", "Temps de visionnage moyen", "Abonnés acquis", "Vues du profil", "Réactions", "Commentaires", "Republications", "Enregistrements", "Envois", "Interactions avec le bouton personnalisé"], ["https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "Article", "172", "90 %", "10 %", "105", "", "", "", "0", "0", "3", "0", "1", "0", "0", "0"], ["https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "Vidéo", "4104", "6 %", "94 %", "2974", "2153", "8 h 59 min", "15 s", "0", "1", "3", "7", "1", "0", "1", "0"], ["https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "Republier", "168", "97 %", "3 %", "105", "", "", "", "0", "1", "1", "0", "0", "0", "0", "0"], [], ["", "", "", "4444"], [], ["Posts les plus récents : les 7 derniers jours.\n\nNote : données intéressantes, différentes des \"Meilleurs posts\""], [], [], [], [], []], "MEILLEURS POSTS": [["50 posts disponibles au maximum, à inclure dans cette liste"], [], ["URL du post", "Date de publication du post", "Interactions", "", "URL du post", "Date de publication du post", "Impressions"], ["https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "10", "", "https://www.linkedin.com/posts/brice-piednoir_comment-%C3%A7a-a-d%C3%BB-probablement-se-passer-ugcPost-7527000477117480960-0eXO", "13/11/2026", "4104"], ["https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "3", "", "https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "248"], ["https://www.linkedin.com/posts/brice-piednoir_il-a-ins%C3%A9r%C3%A9-sa-cl%C3%A9-usb-dans-un-mauvais-ugcPost-7526211227631611904-Qzua", "11/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_nova-societas-nest-pas-un-g%C3%A9ant-de-la-tech-share-7527873428377485312-r9bA", "16/11/2026", "172"], ["https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "1", "", "https://www.linkedin.com/posts/brice-piednoir_la-suite-ugcPost-7526542018177777664-6AWV", "12/11/2026", "168"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_un-samedi-soir-sur-la-terre-comme-chantait-ugcPost-7517952941744599040-mGle", "19/10/2026", "9"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_en-route-vers-le-forum-s%C3%A9isme-%C3%A0-rennes-share-7516098081508057089-I23w", "14/10/2026", "5"], ["", "", "15", "", "https://www.linkedin.com/posts/brice-piednoir_aller-on-fait-%C3%A7a-avec-une-belle-vid%C3%A9o-le-ugcPost-7478870002490720256-1pDN", "3/7/2026", "4"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_grandir-avec-le-financement-participatif-ugcPost-7472685459157123072-9W0r", "16/6/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_et-voil%C3%A0-le-r%C3%A9sultat-merci-httpslnkdin-share-7523505806617780225-GdMj", "3/11/2026", "3"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_nous-sommes-lundi-15-juillet-2024-je-suis-ugcPost-7221825800428212224-V7e9", "24/7/2024", "1"], ["", "", "", "", "https://www.linkedin.com/posts/brice-piednoir_les-tentatives-de-r%C3%A9gression-sencha%C3%AEnent-ugcPost-7263096496579907585--gjl", "15/11/2024", "1"], [], [], ["", "", "", "", "", "", "4718"]], "ABONNÉS": [["Nombre total d’abonnés le 17/11/2026", "4924", "", "Abonnés = relations de 1er degré + les \"+Suivre\" sur Linkedin"], [], ["Date", "Nouveaux abonnés"], ["11/11/2026", "1"], ["12/11/2026", "2"], ["13/11/2026", "2"], ["14/11/2026", "0"], ["15/11/2026", "0"], ["16/11/2026", "7"], ["17/11/2026", "1"]], "DONNÉES DÉMOGRAPHIQUES SUR L’AU": [["Principales données démographiques", "Valeur", "Pourcentage", "", "Données démographiques sur l'audience : les données démographiques sur les Abonnés"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "S3d Ingénierie", "< 1%"], ["Entreprise", "ADEME", "< 1%"], ["Entreprise", "SUEZ", "< 1%"], ["Entreprise", "Reliance Industries Limited", "< 1%"], ["Entreprise", "CIRAD", "< 1%"], ["Entreprise", "Nantes Métropole", "< 1%"], ["Entreprise", "TotalEnergies", "< 1%"], ["Entreprise", "Air Liquide", "< 1%"], ["Entreprise", "ExxonMobil", "< 1%"], ["Lieu", "Paris et périphérie", "0.17", "", "0.38000000000000012"], ["Lieu", "Nantes et périphérie", "0.08"], ["Lieu", "Lyon et périphérie", "0.03"], ["Lieu", "Montpellier et périphérie", "0.02"], ["Lieu", "Rennes et périphérie", "0.02"], ["Lieu", "Toulouse et périphérie", "0.02"], ["Lieu", "Marseille et périphérie", "0.01"], ["Lieu", "Bordeaux et périphérie", "0.01"], ["Lieu", "Lille et périphérie", "0.01"], ["Lieu", "Montréal et périphérie", "0.01"], ["Taille de l’entreprise", "2 - 10 employés", "18 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "10 %"], ["Taille de l’entreprise", "51 - 200 employés", "9 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "8 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "0 - 1 employés", "5 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Taille de l’entreprise", "5 001 - 10 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "33 %"], ["Niveau hiérarchique", "Premier emploi", "20 %"], ["Niveau hiérarchique", "Directeur", "10 %"], ["Niveau hiérarchique", "Manager", "7 %"], ["Niveau hiérarchique", "PDG", "7 %"], ["Niveau hiérarchique", "Propriétaire", "6 %"], ["Niveau hiérarchique", "VP", "3 %"], ["Niveau hiérarchique", "Partenaire", "2 %"], ["Niveau hiérarchique", "Stagiaire", "< 1%"], ["Poste", "Fondateur", "4 %"], ["Poste", "Co-fondateur", "3 %"], ["Poste", "Responsable de projet", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "PDG", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Professeur", "< 1%"], ["Poste", "Ingénieur processus", "< 1%"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "10 %"], ["Secteur", "Services de conseil en environnement", "8 %"], ["Secteur", "Services et conseil aux entreprises", "8 %"], ["Secteur", "Industrie pétrolière et gazière", "5 %"], ["Secteur", "Enseignement supérieur", "3 %"], ["Secteur", "Services de recherche", "3 %"], ["Secteur", "Fabrication de produits chimiques", "3 %"], ["Secteur", "Fabrication de machines industrielles", "3 %"], ["Secteur", "Services et conseil en informatique", "2 %"], ["Secteur", "Administration publique", "2 %"]], "DONNÉES DÉMOGRAPHIQUES SUR LE C": [["Principales données démographiques", "Valeur", "Pourcentage", "", "Données démographiques sur le contenu : les données démographiques sur les personnes qui ont vu les posts (les 4 718 Impressions, 3 192 et qqes membres touchés)\n\nNote : intéressant de voir la différence entre cette démographie et celle de l'audience"], ["Entreprise", "Team for the Planet", "< 1%"], ["Entreprise", "Sciences Po", "< 1%"], ["Entreprise", "Capgemini", "< 1%"], ["Entreprise", "Natixis Corporate & Investment Banking", "< 1%"], ["Lieu", "Paris et périphérie", "42 %"], ["Lieu", "Lyon et périphérie", "5 %"], ["Lieu", "Bruxelles et périphérie", "4 %"], ["Lieu", "Nantes et périphérie", "3 %"], ["Lieu", "Genève et périphérie", "2 %"], ["Lieu", "Bordeaux et périphérie", "2 %"], ["Lieu", "Toulouse et périphérie", "2 %"], ["Lieu", "Lausanne et périphérie", "2 %"], ["Lieu", "Marseille et périphérie", "2 %"], ["Taille de l’entreprise", "2 - 10 employés", "20 %"], ["Taille de l’entreprise", "11 - 50 employés", "15 %"], ["Taille de l’entreprise", "Plus de 10 001 employés", "12 %"], ["Taille de l’entreprise", "51 - 200 employés", "10 %"], ["Taille de l’entreprise", "1 001 - 5 000 employés", "9 %"], ["Taille de l’entreprise", "201 - 500 employés", "6 %"], ["Taille de l’entreprise", "0 - 1 employés", "6 %"], ["Taille de l’entreprise", "501 - 1 000 employés", "4 %"], ["Niveau hiérarchique", "Expérimenté", "27 %"], ["Niveau hiérarchique", "Premier emploi", "15 %"], ["Niveau hiérarchique", "Directeur", "14 %"], ["Niveau hiérarchique", "PDG", "11 %"], ["Niveau hiérarchique", "Propriétaire", "9 %"], ["Niveau hiérarchique", "Manager", "8 %"], ["Niveau hiérarchique", "Partenaire", "4 %"], ["Niveau hiérarchique", "VP", "4 %"], ["Poste", "Fondateur", "7 %"], ["Poste", "Co-fondateur", "5 %"], ["Poste", "PDG", "3 %"], ["Poste", "Président", "2 %"], ["Poste", "Responsable de projet", "2 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Propriétaire", "1 %"], ["Poste", "Directeur général", "1 %"], ["Poste", "Professeur", "< 1%"], ["Secteur", "Services et conseil aux entreprises", "9 %"], ["Secteur", "Services et conseil en informatique", "9 %"], ["Secteur", "Technologie, information et Internet", "5 %"], ["Secteur", "Services financiers", "5 %"], ["Secteur", "Développement de logiciels", "4 %"], ["Secteur", "Enseignement supérieur", "2 %"], ["Secteur", "Services de publicité", "2 %"], ["Secteur", "Services bancaires", "2 %"], ["Secteur", "Fabrication d’équipements pour les énergies renouvelables", "2 %"], ["Secteur", "Services de recherche", "2 %"]] } }];
 
     function toNum(val) {
       if (val === null || val === undefined || val === "") return 0;
@@ -545,7 +759,7 @@
         if (m && m[1]) {
           return m[1].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
         }
-      } catch (_) {}
+      } catch (_) { }
       return url.slice(0, 65) + "...";
     }
 
@@ -741,14 +955,14 @@
             return;
           }
         }
-      } catch (_) {}
+      } catch (_) { }
       resetToSeedData(false);
     }
 
     function saveState() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(versions));
-      } catch (_) {}
+      } catch (_) { }
     }
 
     function resetToSeedData(shouldRender = true) {
@@ -1249,4 +1463,5 @@
     });
   </script>
 </body>
+
 </html>
