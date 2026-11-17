@@ -279,18 +279,51 @@
           ⚡ État le plus récent
         </button>
         <select id="version-select" class="version-select" aria-label="Sélectionner une version"></select>
-        <label class="btn primary">
-          📥 Importer .xlsx
-          <input type="file" id="xlsx-input" accept=".xlsx,.xls" multiple style="display:none" />
-        </label>
         <button id="btn-delete-version" class="btn danger" title="Supprimer la version affichée">🗑️</button>
-        <button id="btn-reset-seed" class="btn" title="Réinitialiser avec les fichiers d'exemple DataIn">🔄 Exemples DataIn</button>
         <button id="btn-logout" class="btn" title="Verrouiller la session">🔒</button>
       </div>
     </header>
 
-    <div id="dropzone" class="dropzone">
-      Glissez-déposez un ou plusieurs fichiers <strong>.xlsx</strong> (exports LinkedIn de <code>DataIn/</code>) ici pour ajouter ou mettre à jour une version.
+    <!-- SEPARATED IMPORT / BACKUP ZONES -->
+    <div class="grid-2">
+      <!-- ZONE 1: Classic .xlsx Import -->
+      <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="panel-header" style="margin-bottom:0.65rem;">
+          <div>
+            <div class="panel-title">📥 Import classique d'exports LinkedIn (.xlsx)</div>
+            <div class="panel-subtitle">Ajoute ou met à jour une version à partir d'un fichier Excel multi-onglets</div>
+          </div>
+          <label class="btn primary">
+            + Choisir .xlsx
+            <input type="file" id="xlsx-input" accept=".xlsx,.xls" multiple style="display:none" />
+          </label>
+        </div>
+        <div id="dropzone" class="dropzone" style="margin-bottom:0;">
+          Glissez-déposez un ou plusieurs fichiers <strong>.xlsx</strong> (ex. depuis <code>DataIn/</code>) ici
+        </div>
+      </div>
+
+      <!-- ZONE 2: Full Dataset Export / Reload (.json) -->
+      <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="panel-header" style="margin-bottom:0.65rem;">
+          <div>
+            <div class="panel-title">💾 Sauvegarde & Restauration de l'ensemble des données (.json)</div>
+            <div class="panel-subtitle" id="backup-status-line">Exporter toutes les versions chargées ou recharger une sauvegarde complète</div>
+          </div>
+        </div>
+        <div class="controls" style="justify-content:flex-start;gap:0.65rem;padding-top:0.25rem;">
+          <button id="btn-export-all" class="btn primary" title="Télécharger toutes les versions chargées dans un fichier JSON">
+            📤 Exporter toutes les données (.json)
+          </button>
+          <label class="btn" title="Recharger un fichier JSON contenant l'ensemble des versions">
+            📂 Recharger une sauvegarde (.json)
+            <input type="file" id="json-backup-input" accept=".json" style="display:none" />
+          </label>
+          <button id="btn-reset-seed" class="btn" title="Réinitialiser avec les 2 fichiers d'exemple DataIn">
+            🔄 Réinitialiser (DataIn)
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- KPI CARDS -->
@@ -1158,6 +1191,52 @@
 
     document.getElementById("btn-reset-seed").addEventListener("click", () => {
       resetToSeedData(true);
+    });
+
+    // Export all currently loaded versions to a JSON file
+    document.getElementById("btn-export-all").addEventListener("click", () => {
+      const payload = {
+        app: "StalkBrice",
+        exportedAt: new Date().toISOString(),
+        versionsCount: versions.length,
+        versions
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `StalkBrice_Data_${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      document.getElementById("backup-status-line").textContent =
+        `Dernier export : ${versions.length} version(s) exportée(s) (${new Date().toLocaleTimeString("fr-FR")})`;
+    });
+
+    // Reload full dataset from an exported JSON file
+    document.getElementById("json-backup-input").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      e.target.value = "";
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const list = Array.isArray(data) ? data : (data && Array.isArray(data.versions) ? data.versions : null);
+        if (!list || !list.length || !list[0].kpis || !list[0].id) {
+          alert("Fichier JSON non reconnu : il doit s'agir d'un export StalkBrice.");
+          return;
+        }
+        versions = sortVersions(list);
+        selectedVersionId = "LATEST";
+        saveState();
+        renderAll();
+        document.getElementById("backup-status-line").textContent =
+          `Sauvegarde chargée : ${versions.length} version(s) depuis ${file.name}`;
+      } catch (_) {
+        alert("Impossible de lire ce fichier JSON.");
+      }
     });
 
     // Boot
