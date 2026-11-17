@@ -436,6 +436,61 @@
     details.data-drawer[open] .drawer-chevron { transform: rotate(180deg); }
     .drawer-body { padding: 1rem; }
 
+    /* MAIN VIEW TABS */
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .mode-tab {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1.2rem;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      transition: 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .mode-tab:hover { border-color: var(--accent); }
+    .mode-tab.active {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(30, 41, 59, 0.95));
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .mode-tab-title { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    .mode-tab-desc { font-size: 0.8rem; color: var(--muted); }
+    .compare-bar {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1.15rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .insight-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .insight-chip {
+      font-size: 0.78rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 8px;
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      color: #d1fae5;
+    }
+
     @media (max-width: 600px) {
       .grid-2 {
         grid-template-columns: 1fr;
@@ -475,12 +530,7 @@
         <div id="sheet-pills-container" class="sheet-pills"></div>
       </div>
       <div class="controls">
-        <button id="btn-latest" class="btn active-mode" title="Basculer sur l'état le plus récent">
-          ⚡ État le plus récent
-        </button>
-        <select id="version-select" class="version-select" aria-label="Sélectionner une version"></select>
-        <button id="btn-delete-version" class="btn danger" title="Supprimer la version affichée">🗑️</button>
-        <button id="btn-logout" class="btn" title="Verrouiller la session">🔒</button>
+        <button id="btn-logout" class="btn" title="Verrouiller la session">🔒 Verrouiller</button>
       </div>
     </header>
 
@@ -533,140 +583,217 @@
             </div>
           </div>
         </div>
+
+        <!-- ZONE 3: All Loaded Versions History Table & Notes (inside collapsible drawer) -->
+        <div class="panel" style="margin-top:1rem;margin-bottom:0;">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">🕒 Historique des versions chargées & Notes extraites des fichiers</div>
+              <div class="panel-subtitle">Cliquez sur une ligne pour l'inspecter en Comparaison (Chargement A)</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-versions">
+              <thead>
+                <tr>
+                  <th>Statut</th>
+                  <th>Période</th>
+                  <th>Tag / Fichier</th>
+                  <th>Onglets</th>
+                  <th class="num">Impressions</th>
+                  <th class="num">Membres touchés</th>
+                  <th class="num">Impr./Membre</th>
+                  <th class="num">Interactions</th>
+                  <th class="num">Abonnés totaux</th>
+                  <th class="num">Nouv. abonnés</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="notes-container" class="notes-list"></div>
+        </div>
       </div>
     </details>
 
-    <!-- KPI CARDS -->
-    <section class="kpi-grid" id="kpi-grid"></section>
+    <!-- SEPARATED TOP-LEVEL ANALYSIS MODES -->
+    <div class="mode-tabs">
+      <button id="tab-btn-latest" class="mode-tab active">
+        <div class="mode-tab-title">⚡ 1. Analyse : État le plus récent (Consolidé)</div>
+        <div class="mode-tab-desc">Photographie actuelle, historique journalier fusionné (dernière valeur connue par date), affinité Audience vs Contenu et catalogue consolidé des posts</div>
+      </button>
+      <button id="tab-btn-compare" class="mode-tab">
+        <div class="mode-tab-title">🔄 2. Analyse : Comparaison par chargement</div>
+        <div class="mode-tab-desc">Duel entre deux chargements (A vs B), révision sur les dates en chevauchement, gain d'impressions/interactions par post et trajectoire multi-exports</div>
+      </button>
+    </div>
 
-    <!-- CHARTS ROW 1: Daily Evolution + Version Comparison -->
-    <div class="grid-2">
-      <div class="panel" style="margin-bottom:0">
+    <!-- =================================================================== -->
+    <!-- VIEW 1: ÉTAT LE PLUS RÉCENT (CONSOLIDATED CURRENT STATE)            -->
+    <!-- =================================================================== -->
+    <div id="view-latest">
+      <section class="kpi-grid" id="latest-kpi-grid"></section>
+
+      <!-- Consolidated Daily Timeline -->
+      <div class="panel">
         <div class="panel-header">
           <div>
-            <div class="panel-title">📈 Évolution quotidienne (Engagement & Nouveaux abonnés)</div>
-            <div class="panel-subtitle">Onglets ENGAGEMENT & ABONNÉS de la version sélectionnée</div>
+            <div class="panel-title">📈 Chronologie quotidienne consolidée (État le plus récent par jour)</div>
+            <div class="panel-subtitle" id="latest-timeline-subtitle">Fusion de tous les jours suivis en retenant la version la plus récente en cas de chevauchement</div>
           </div>
         </div>
         <div class="chart-box">
-          <canvas id="chart-daily"></canvas>
+          <canvas id="chart-latest-daily"></canvas>
         </div>
       </div>
 
-      <div class="panel" style="margin-bottom:0">
+      <!-- Demographics: Audience vs Content + Out-of-network affinity insights -->
+      <div class="panel">
         <div class="panel-header">
           <div>
-            <div class="panel-title">🗂️ Comparatif des versions importées</div>
-            <div class="panel-subtitle">Évolution des indicateurs principaux d'une version à l'autre</div>
+            <div class="panel-title">👥 Diagnostic Démographique : Audience (Abonnés) vs Contenu (Personnes touchées)</div>
+            <div class="panel-subtitle">Identifie les segments où vos publications percent au-delà de votre base d'abonnés (état le plus récent)</div>
+          </div>
+          <div class="controls">
+            <label for="demo-cat-select" style="font-size:0.82rem;color:var(--muted);">Catégorie :</label>
+            <select id="demo-cat-select" class="version-select" style="min-width:210px;"></select>
           </div>
         </div>
-        <div class="chart-box">
-          <canvas id="chart-versions"></canvas>
+        <div id="demo-affinity-insights" class="insight-chips"></div>
+        <div class="chart-box" style="height:340px;">
+          <canvas id="chart-demographics"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Posts Granular Sheet (7 last days) -->
+      <div class="panel" id="recent-posts-panel" style="display:none;">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">🆕 Focus : Posts des 7 derniers jours (Détail granulaire Réseau / Hors-Réseau / Vidéo)</div>
+            <div class="panel-subtitle">Issu de l'onglet POSTS LES PLUS RÉCENTS le plus récent disponible</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="table-recent-posts">
+            <thead>
+              <tr>
+                <th>Post LinkedIn</th>
+                <th>Date pub.</th>
+                <th>Type</th>
+                <th class="num">Impressions</th>
+                <th class="num">Hors réseau</th>
+                <th class="num">Membres touchés</th>
+                <th class="num">Vues / Durée</th>
+                <th class="num">Réactions</th>
+                <th class="num">Comm.</th>
+                <th class="num">Repub.</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Consolidated Top Posts (latest known state per URL) -->
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">🏆 Catalogue consolidé des Posts (Dernier état connu par publication)</div>
+            <div class="panel-subtitle">Fusionne tous les posts rencontrés avec leur niveau d'impressions et d'interactions le plus récent</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="table-top-posts">
+            <thead>
+              <tr>
+                <th>Post LinkedIn</th>
+                <th>Date de publication</th>
+                <th>Dernière source</th>
+                <th class="num">Impressions (état récent)</th>
+                <th class="num">Interactions (état récent)</th>
+                <th class="num">Taux d'inter.</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- DEMOGRAPHICS COMPARISON: Audience vs Content -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <div class="panel-title">👥 Démographie : Audience (Abonnés) vs Contenu (Personnes touchées)</div>
-          <div class="panel-subtitle">Comparaison côte à côte des onglets DONNÉES DÉMOGRAPHIQUES SUR L’AUDIENCE et SUR
-            LE CONTENU</div>
+    <!-- =================================================================== -->
+    <!-- VIEW 2: COMPARAISON PAR CHARGEMENT (VERSION A vs VERSION B)         -->
+    <!-- =================================================================== -->
+    <div id="view-compare" style="display:none;">
+      <div class="compare-bar">
+        <div class="controls">
+          <label for="compare-select-a" style="font-size:0.84rem;font-weight:600;color:var(--accent);">Chargement A (Observé) :</label>
+          <select id="compare-select-a" class="version-select"></select>
+          <span style="color:var(--muted);font-weight:700;">VS</span>
+          <label for="compare-select-b" style="font-size:0.84rem;font-weight:600;color:var(--amber);">Chargement B (Référence) :</label>
+          <select id="compare-select-b" class="version-select"></select>
         </div>
         <div class="controls">
-          <label for="demo-cat-select" style="font-size:0.82rem;color:var(--muted);">Catégorie :</label>
-          <select id="demo-cat-select" class="version-select" style="min-width:210px;"></select>
+          <button id="btn-delete-version" class="btn danger" title="Supprimer le chargement A sélectionné">🗑️ Supprimer Chargement A</button>
         </div>
       </div>
-      <div class="chart-box" style="height:340px;">
-        <canvas id="chart-demographics"></canvas>
-      </div>
-    </div>
 
-    <!-- RECENT POSTS (GRANULAR SHEET WHEN AVAILABLE) -->
-    <div class="panel" id="recent-posts-panel" style="display:none;">
-      <div class="panel-header">
-        <div>
-          <div class="panel-title">🆕 Posts les plus récents (Détail granulaire 7 derniers jours)</div>
-          <div class="panel-subtitle">Onglet POSTS LES PLUS RÉCENTS (réseau/hors réseau, vues vidéo, réactions,
-            commentaires, republications)</div>
+      <!-- Comparison KPI Deltas (A vs B) -->
+      <section class="kpi-grid" id="compare-kpi-grid"></section>
+
+      <!-- Charts Row: Daily Overlap Diff (A vs B) + Multi-version Trajectory -->
+      <div class="grid-2">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">🔍 Comparaison jour par jour & Jours en chevauchement (A vs B)</div>
+              <div class="panel-subtitle" id="overlap-subtitle">Mise en évidence des écarts de mesure sur les dates communes aux deux chargements</div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chart-compare-overlap"></canvas>
+          </div>
         </div>
-      </div>
-      <div class="table-wrap">
-        <table id="table-recent-posts">
-          <thead>
-            <tr>
-              <th>Post LinkedIn</th>
-              <th>Date pub.</th>
-              <th>Type</th>
-              <th class="num">Impressions</th>
-              <th class="num">Hors réseau</th>
-              <th class="num">Membres touchés</th>
-              <th class="num">Vues / Durée</th>
-              <th class="num">Réactions</th>
-              <th class="num">Comm.</th>
-              <th class="num">Repub.</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
 
-    <!-- TOP POSTS (MEILLEURS POSTS) -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <div class="panel-title">🏆 Meilleurs Posts sur la période</div>
-          <div class="panel-subtitle">Onglet MEILLEURS POSTS (fusion du classement par Impressions et par Interactions)
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">🗂️ Trajectoire globale sur l'ensemble des chargements</div>
+              <div class="panel-subtitle">Évolution des indicateurs globaux d'un chargement à l'autre</div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chart-versions"></canvas>
           </div>
         </div>
       </div>
-      <div class="table-wrap">
-        <table id="table-top-posts">
-          <thead>
-            <tr>
-              <th>Post LinkedIn (extrait de l'URL)</th>
-              <th>Date de publication</th>
-              <th class="num">Impressions</th>
-              <th class="num">Interactions</th>
-              <th class="num">Taux d'inter.</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
 
-    <!-- VERSIONS HISTORY TABLE & ANNOTATIONS -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <div class="panel-title">🕒 Historique des versions & Notes détectées dans les onglets</div>
-          <div class="panel-subtitle">Tri automatique par date de fin de période puis ordre d'import (cliquez sur une
-            ligne pour inspecter la version)</div>
+      <!-- Post-by-Post Progression Table (A vs B) -->
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">🚀 Progression par Post entre le Chargement B et le Chargement A</div>
+            <div class="panel-subtitle">Mesure le gain net d'impressions et d'interactions de chaque publication entre les deux exports</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="table-compare-posts">
+            <thead>
+              <tr>
+                <th>Post LinkedIn</th>
+                <th>Date pub.</th>
+                <th>Statut</th>
+                <th class="num">Impr. (B)</th>
+                <th class="num">Impr. (A)</th>
+                <th class="num">Δ Impressions</th>
+                <th class="num">Inter. (B)</th>
+                <th class="num">Inter. (A)</th>
+                <th class="num">Δ Interactions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
-      <div class="table-wrap">
-        <table id="table-versions">
-          <thead>
-            <tr>
-              <th>Statut</th>
-              <th>Période</th>
-              <th>Tag / Fichier</th>
-              <th>Onglets</th>
-              <th class="num">Impressions</th>
-              <th class="num">Membres touchés</th>
-              <th class="num">Interactions</th>
-              <th class="num">Abonnés totaux</th>
-              <th class="num">Nouveaux abonnés</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div id="notes-container" class="notes-list"></div>
     </div>
   </div>
 
@@ -942,8 +1069,22 @@
     // 3. STATE MANAGEMENT & PERSISTENCE
     // =========================================================================
     let versions = [];
-    let selectedVersionId = "LATEST";
-    let chartDaily = null, chartVersions = null, chartDemo = null;
+    let currentTab = "LATEST"; // "LATEST" or "COMPARE"
+    let compareIdA = null;
+    let compareIdB = null;
+    let chartLatestDaily = null, chartDemo = null, chartCompareOverlap = null, chartVersions = null;
+
+    function ensureCompareSelection() {
+      versions = sortVersions(versions);
+      if (!versions.length) return;
+      if (!compareIdA || !versions.some((v) => v.id === compareIdA)) {
+        compareIdA = versions[0].id;
+      }
+      if (!compareIdB || !versions.some((v) => v.id === compareIdB) || compareIdB === compareIdA) {
+        const next = versions.find((v) => v.id !== compareIdA);
+        compareIdB = next ? next.id : versions[0].id;
+      }
+    }
 
     function loadInitialState() {
       try {
@@ -952,6 +1093,7 @@
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
             versions = sortVersions(parsed);
+            ensureCompareSelection();
             return;
           }
         }
@@ -969,9 +1111,62 @@
       versions = sortVersions(
         SEED_RAW_FILES.map((f) => parseSheetsToVersion(f.fileName, f.sheets, f.importedAt))
       );
-      selectedVersionId = "LATEST";
+      compareIdA = null;
+      compareIdB = null;
+      ensureCompareSelection();
       saveState();
       if (shouldRender) renderAll();
+    }
+
+    // Build consolidated latest state across all loaded versions (newest version wins per date and per post URL)
+    function buildConsolidatedLatestState(sortedVersions) {
+      const latest = sortedVersions[0];
+      const chronological = [...sortedVersions].reverse(); // oldest -> newest so newest overwrites
+      const dailyByIso = {};
+      const postsByUrl = {};
+      let latestWithRecentSheet = latest;
+
+      chronological.forEach((v) => {
+        v.dailySeries.forEach((d) => {
+          dailyByIso[d.dateIso] = {
+            ...d,
+            sourcePeriod: v.periodLabel,
+            sourceTag: v.tag
+          };
+        });
+        v.topPosts.forEach((p) => {
+          const prev = postsByUrl[p.url];
+          postsByUrl[p.url] = {
+            url: p.url,
+            title: p.title,
+            dateFr: p.dateFr || (prev ? prev.dateFr : ""),
+            impressions: Math.max(p.impressions, prev ? prev.impressions : 0),
+            interactions: Math.max(p.interactions, prev ? prev.interactions : 0),
+            sourceLabel: `${v.periodLabel} (${v.tag})`
+          };
+        });
+        if (v.recentPosts && v.recentPosts.length > 0) {
+          latestWithRecentSheet = v;
+        }
+      });
+
+      const consolidatedDaily = Object.values(dailyByIso).sort((a, b) => a.dateIso.localeCompare(b.dateIso));
+      const consolidatedImpressions = consolidatedDaily.reduce((s, d) => s + d.impressions, 0);
+      const consolidatedInteractions = consolidatedDaily.reduce((s, d) => s + d.interactions, 0);
+      const consolidatedNewFollowers = consolidatedDaily.reduce((s, d) => s + d.newFollowers, 0);
+      const consolidatedPosts = Object.values(postsByUrl).sort(
+        (a, b) => (b.impressions - a.impressions) || (b.interactions - a.interactions)
+      );
+
+      return {
+        latestVersion: latest,
+        latestWithRecentSheet,
+        consolidatedDaily,
+        consolidatedImpressions,
+        consolidatedInteractions,
+        consolidatedNewFollowers,
+        consolidatedPosts
+      };
     }
 
     // Self-check assertions on the two DataIn seed files
@@ -986,120 +1181,128 @@
       console.assert(latest.kpis.totalInteractions === 15, "Verif total row must not double-count interactions (expected 15)");
       console.assert(latest.recentPosts.length === 3, "Latest version has 3 recent posts");
       console.assert(prev.endDateIso === "2026-11-16" && prev.kpis.impressions === 4624 && prev.kpis.totalInteractions === 14, "Previous version should be 10-16 with 4624 impressions and 14 interactions");
+      const cons = buildConsolidatedLatestState(seedParsed);
+      console.assert(cons.consolidatedDaily.length === 8, "Consolidated timeline from 10/11 to 17/11 should have 8 distinct days");
     }
 
     // =========================================================================
-    // 4. UI RENDERING & DATAVIZ
+    // 4. UI RENDERING & DATAVIZ (SEPARATED LATEST vs COMPARE VIEWS)
     // =========================================================================
-    function getActiveAndPreviousVersion() {
-      versions = sortVersions(versions);
-      if (!versions.length) return { active: null, previous: null, isLatest: true };
-      const isLatest = selectedVersionId === "LATEST" || selectedVersionId === versions[0].id;
-      const idx = isLatest ? 0 : Math.max(0, versions.findIndex((v) => v.id === selectedVersionId));
-      const active = versions[idx] || versions[0];
-      const previous = versions[idx + 1] || null;
-      return { active, previous, isLatest: idx === 0 };
-    }
-
     function formatDelta(curr, prev, suffix = "") {
-      if (prev === null || prev === undefined) return `<span class="delta flat">Réf. initiale</span>`;
+      if (prev === null || prev === undefined) return `<span class="delta flat">Réf. unique</span>`;
       const diff = +(curr - prev).toFixed(2);
-      if (diff === 0) return `<span class="delta flat">= 0${suffix} vs v. préc.</span>`;
+      if (diff === 0) return `<span class="delta flat">= 0${suffix}</span>`;
       const sign = diff > 0 ? "+" : "";
       const cls = diff > 0 ? "up" : "down";
-      return `<span class="delta ${cls}">${sign}${diff.toLocaleString("fr-FR")}${suffix} vs v. préc.</span>`;
+      const pct = prev > 0 ? ` (${sign}${(((curr - prev) / prev) * 100).toFixed(1)} %)` : "";
+      return `<span class="delta ${cls}">${sign}${diff.toLocaleString("fr-FR")}${suffix}${pct}</span>`;
     }
 
+    function setTab(mode) {
+      currentTab = mode;
+      document.getElementById("tab-btn-latest").classList.toggle("active", mode === "LATEST");
+      document.getElementById("tab-btn-compare").classList.toggle("active", mode === "COMPARE");
+      document.getElementById("view-latest").style.display = mode === "LATEST" ? "block" : "none";
+      document.getElementById("view-compare").style.display = mode === "COMPARE" ? "block" : "none";
+      renderAll();
+    }
+
+    document.getElementById("tab-btn-latest").addEventListener("click", () => setTab("LATEST"));
+    document.getElementById("tab-btn-compare").addEventListener("click", () => setTab("COMPARE"));
+
     function renderAll() {
-      const { active, previous, isLatest } = getActiveAndPreviousVersion();
-      if (!active) return;
+      versions = sortVersions(versions);
+      if (!versions.length) return;
+      ensureCompareSelection();
+
+      const latest = versions[0];
+      const vA = versions.find((v) => v.id === compareIdA) || versions[0];
+      const vB = versions.find((v) => v.id === compareIdB) || versions[versions.length - 1];
+      renderVersionsHistoryTable(vA, vB);
 
       const badge = document.getElementById("current-mode-badge");
-      const btnLatest = document.getElementById("btn-latest");
-      if (isLatest) {
-        badge.textContent = "ÉTAT LE PLUS RÉCENT";
+      if (currentTab === "LATEST") {
+        badge.textContent = "VUE : ÉTAT LE PLUS RÉCENT (CONSOLIDÉ)";
         badge.className = "badge green";
-        btnLatest.classList.add("active-mode");
+        document.getElementById("version-meta-line").textContent =
+          `Dernier export : ${latest.periodLabel} (${latest.fileName}) • ${versions.length} chargement(s) consolidé(s)`;
+        document.getElementById("sheet-pills-container").innerHTML = latest.sheetNames
+          .map((s) => `<span class="sheet-pill">${s}</span>`)
+          .join("");
+        renderLatestView();
       } else {
-        badge.textContent = `VERSION ARCHIVE (${active.periodLabel})`;
+        badge.textContent = `VUE : COMPARAISON (${vA.periodLabel} vs ${vB.periodLabel})`;
         badge.className = "badge";
-        btnLatest.classList.remove("active-mode");
+        document.getElementById("version-meta-line").textContent =
+          `Duel actif : Chargement A [${vA.periodLabel} - ${vA.tag}] vs Chargement B [${vB.periodLabel} - ${vB.tag}]`;
+        document.getElementById("sheet-pills-container").innerHTML = "";
+        renderCompareView(vA, vB);
       }
+    }
 
-      document.getElementById("version-meta-line").textContent =
-        `Période : ${active.periodLabel} • Fichier : ${active.fileName} • ${active.sheetNames.length} onglets extraits`;
+    // -------------------------------------------------------------------------
+    // VIEW 1 RENDERING: ÉTAT LE PLUS RÉCENT (CONSOLIDÉ)
+    // -------------------------------------------------------------------------
+    function renderLatestView() {
+      const cons = buildConsolidatedLatestState(versions);
+      const latest = cons.latestVersion;
+      const k = latest.kpis;
+      const daysCount = cons.consolidatedDaily.length;
+      const firstDay = daysCount ? cons.consolidatedDaily[0].dateFr : "-";
+      const lastDay = daysCount ? cons.consolidatedDaily[daysCount - 1].dateFr : "-";
+      const avgDailyImp = daysCount ? Math.round(cons.consolidatedImpressions / daysCount) : 0;
 
-      document.getElementById("sheet-pills-container").innerHTML = active.sheetNames
-        .map((s) => `<span class="sheet-pill">${s}</span>`)
-        .join("");
-
-      const sel = document.getElementById("version-select");
-      sel.innerHTML = versions
-        .map((v, i) => {
-          const label = `${i === 0 ? "🟢 [Plus récent] " : "🕒 "}${v.periodLabel} — ${v.tag} (${v.sheetNames.length} onglets)`;
-          const isSel = (selectedVersionId === "LATEST" && i === 0) || v.id === active.id;
-          return `<option value="${v.id}" ${isSel ? "selected" : ""}>${label}</option>`;
-        })
-        .join("");
-
-      const k = active.kpis;
-      const pk = previous ? previous.kpis : null;
-      document.getElementById("kpi-grid").innerHTML = `
+      document.getElementById("latest-kpi-grid").innerHTML = `
         <div class="kpi-card">
-          <div class="kpi-label">Impressions totales</div>
-          <div class="kpi-val">${k.impressions.toLocaleString("fr-FR")}</div>
-          <div class="kpi-sub">
-            <span>Période : ${active.periodLabel}</span>
-            ${formatDelta(k.impressions, pk ? pk.impressions : null)}
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Membres touchés</div>
-          <div class="kpi-val">${k.membersReached.toLocaleString("fr-FR")}</div>
-          <div class="kpi-sub">
-            <span>${k.impressionsPerMember.toLocaleString("fr-FR")} impr. / membre</span>
-            ${formatDelta(k.membersReached, pk ? pk.membersReached : null)}
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Interactions totales</div>
-          <div class="kpi-val">${k.totalInteractions.toLocaleString("fr-FR")}</div>
-          <div class="kpi-sub">
-            <span>Taux d'engag. : ${k.engagementRate} %</span>
-            ${formatDelta(k.totalInteractions, pk ? pk.totalInteractions : null)}
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Abonnés totaux</div>
+          <div class="kpi-label">Abonnés (État actuel)</div>
           <div class="kpi-val">${k.totalFollowers.toLocaleString("fr-FR")}</div>
           <div class="kpi-sub">
-            <span>+${k.newFollowersSum} gagnés sur la période</span>
-            ${formatDelta(k.totalFollowers, pk ? pk.totalFollowers : null)}
+            <span>Au ${lastDay}</span>
+            <span class="delta up">+${cons.consolidatedNewFollowers} sur ${daysCount} j. suivis</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Impressions (Dernière fenêtre 7j)</div>
+          <div class="kpi-val">${k.impressions.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Cumul ${daysCount} j. : ${cons.consolidatedImpressions.toLocaleString("fr-FR")}</span>
+            <span class="delta flat">~${avgDailyImp.toLocaleString("fr-FR")} / jour</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Membres uniques touchés (7j)</div>
+          <div class="kpi-val">${k.membersReached.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Période : ${latest.periodLabel}</span>
+            <span class="delta flat">${k.impressionsPerMember.toLocaleString("fr-FR")} impr. / membre</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Interactions & Engagement (7j)</div>
+          <div class="kpi-val">${k.totalInteractions.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Cumul ${daysCount} j. : ${cons.consolidatedInteractions}</span>
+            <span class="delta up">Taux : ${k.engagementRate} %</span>
           </div>
         </div>
       `;
 
-      renderDailyChart(active);
-      renderVersionsChart(active);
-      renderDemographicsSection(active);
-      renderPostsTables(active);
-      renderVersionsHistoryTable(active);
-    }
+      document.getElementById("latest-timeline-subtitle").textContent =
+        `Historique continu du ${firstDay} au ${lastDay} (${daysCount} jours consolidés — la version la plus récente fait foi sur chaque date)`;
 
-    function renderDailyChart(active) {
-      const ctx = document.getElementById("chart-daily").getContext("2d");
-      if (chartDaily) chartDaily.destroy();
-      const labels = active.dailySeries.map((d) => d.dateFr.slice(0, 5));
-      chartDaily = new Chart(ctx, {
+      // Consolidated daily chart
+      const ctx = document.getElementById("chart-latest-daily").getContext("2d");
+      if (chartLatestDaily) chartLatestDaily.destroy();
+      chartLatestDaily = new Chart(ctx, {
         type: "bar",
         data: {
-          labels,
+          labels: cons.consolidatedDaily.map((d) => d.dateFr.slice(0, 5)),
           datasets: [
             {
               type: "bar",
-              label: "Impressions",
-              data: active.dailySeries.map((d) => d.impressions),
-              backgroundColor: "rgba(56, 189, 248, 0.55)",
+              label: "Impressions (état le plus récent)",
+              data: cons.consolidatedDaily.map((d) => d.impressions),
+              backgroundColor: "rgba(56, 189, 248, 0.6)",
               borderColor: "#38bdf8",
               borderWidth: 1,
               yAxisID: "y"
@@ -1107,7 +1310,7 @@
             {
               type: "line",
               label: "Interactions",
-              data: active.dailySeries.map((d) => d.interactions),
+              data: cons.consolidatedDaily.map((d) => d.interactions),
               borderColor: "#fbbf24",
               backgroundColor: "#fbbf24",
               tension: 0.25,
@@ -1116,7 +1319,7 @@
             {
               type: "line",
               label: "Nouveaux abonnés",
-              data: active.dailySeries.map((d) => d.newFollowers),
+              data: cons.consolidatedDaily.map((d) => d.newFollowers),
               borderColor: "#34d399",
               backgroundColor: "#34d399",
               borderDash: [4, 4],
@@ -1129,7 +1332,17 @@
           responsive: true,
           maintainAspectRatio: false,
           interaction: { mode: "index", intersect: false },
-          plugins: { legend: { labels: { color: "#cbd5e1" } } },
+          plugins: {
+            legend: { labels: { color: "#cbd5e1" } },
+            tooltip: {
+              callbacks: {
+                afterBody: (items) => {
+                  const row = cons.consolidatedDaily[items[0].dataIndex];
+                  return row ? `Source retenue : ${row.sourcePeriod} (${row.sourceTag})` : "";
+                }
+              }
+            }
+          },
           scales: {
             x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } },
             y: {
@@ -1140,57 +1353,16 @@
             },
             y1: {
               position: "right",
-              title: { display: true, text: "Interactions / Abonnés", color: "#fbbf24" },
+              title: { display: true, text: "Interactions / Nouv. abonnés", color: "#fbbf24" },
               ticks: { color: "#94a3b8" },
               grid: { drawOnChartArea: false }
             }
           }
         }
       });
-    }
 
-    function renderVersionsChart(active) {
-      const ctx = document.getElementById("chart-versions").getContext("2d");
-      if (chartVersions) chartVersions.destroy();
-      const chronological = [...versions].reverse();
-      chartVersions = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: chronological.map((v) => `${v.periodLabel} (${v.tag})`),
-          datasets: [
-            {
-              label: "Impressions",
-              data: chronological.map((v) => v.kpis.impressions),
-              backgroundColor: chronological.map((v) => v.id === active.id ? "#38bdf8" : "rgba(56, 189, 248, 0.35)"),
-              yAxisID: "y"
-            },
-            {
-              label: "Membres touchés",
-              data: chronological.map((v) => v.kpis.membersReached),
-              backgroundColor: chronological.map((v) => v.id === active.id ? "#818cf8" : "rgba(129, 140, 248, 0.35)"),
-              yAxisID: "y"
-            },
-            {
-              type: "line",
-              label: "Interactions",
-              data: chronological.map((v) => v.kpis.totalInteractions),
-              borderColor: "#34d399",
-              backgroundColor: "#34d399",
-              yAxisID: "y1"
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: "#cbd5e1" } } },
-          scales: {
-            x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } },
-            y: { position: "left", ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } },
-            y1: { position: "right", ticks: { color: "#34d399" }, grid: { drawOnChartArea: false } }
-          }
-        }
-      });
+      renderDemographicsSection(latest);
+      renderLatestPostsTables(cons);
     }
 
     function renderDemographicsSection(active) {
@@ -1219,6 +1391,26 @@
         const found = cntList.find((x) => x.item === it);
         return found ? found.pctNum : 0;
       });
+
+      // Compute affinity insights (where Content Reach exceeds Follower base)
+      const diffs = items
+        .map((it, idx) => ({ item: it, aud: audData[idx], cnt: cntData[idx], diff: +(cntData[idx] - audData[idx]).toFixed(1) }))
+        .filter((d) => Math.abs(d.diff) >= 2)
+        .sort((a, b) => b.diff - a.diff);
+
+      const chipsEl = document.getElementById("demo-affinity-insights");
+      if (diffs.length) {
+        chipsEl.innerHTML = diffs
+          .slice(0, 4)
+          .map((d) => {
+            const sign = d.diff > 0 ? "+" : "";
+            const label = d.diff > 0 ? "Sur-représenté dans les vues" : "Sous-représenté dans les vues";
+            return `<span class="insight-chip">🎯 <strong>${d.item}</strong> : ${d.cnt}% contenu vs ${d.aud}% abonnés (<strong>${sign}${d.diff} pts</strong> — ${label})</span>`;
+          })
+          .join("");
+      } else {
+        chipsEl.innerHTML = `<span class="insight-chip">Distribution Contenu alignée avec la base d'Abonnés sur cette catégorie.</span>`;
+      }
 
       chartDemo = new Chart(ctx, {
         type: "bar",
@@ -1261,16 +1453,16 @@
     }
 
     document.getElementById("demo-cat-select").addEventListener("change", (e) => {
-      const { active } = getActiveAndPreviousVersion();
-      if (active) drawDemographicsChart(active, e.target.value);
+      if (versions.length) drawDemographicsChart(versions[0], e.target.value);
     });
 
-    function renderPostsTables(active) {
+    function renderLatestPostsTables(cons) {
       const recentPanel = document.getElementById("recent-posts-panel");
       const recentBody = document.querySelector("#table-recent-posts tbody");
-      if (active.recentPosts && active.recentPosts.length > 0) {
+      const recSource = cons.latestWithRecentSheet;
+      if (recSource && recSource.recentPosts && recSource.recentPosts.length > 0) {
         recentPanel.style.display = "block";
-        recentBody.innerHTML = active.recentPosts
+        recentBody.innerHTML = recSource.recentPosts
           .map(
             (p) => `
           <tr>
@@ -1292,13 +1484,14 @@
       }
 
       const topBody = document.querySelector("#table-top-posts tbody");
-      topBody.innerHTML = active.topPosts
+      topBody.innerHTML = cons.consolidatedPosts
         .map((p) => {
           const rate = p.impressions > 0 ? ((p.interactions / p.impressions) * 100).toFixed(2) + " %" : "-";
           return `
           <tr>
             <td><a href="${p.url}" target="_blank" rel="noopener">${p.title}</a></td>
             <td>${p.dateFr}</td>
+            <td><span class="sheet-pill">${p.sourceLabel}</span></td>
             <td class="num">${p.impressions.toLocaleString("fr-FR")}</td>
             <td class="num">${p.interactions.toLocaleString("fr-FR")}</td>
             <td class="num">${rate}</td>
@@ -1307,19 +1500,257 @@
         .join("");
     }
 
-    function renderVersionsHistoryTable(active) {
+    // -------------------------------------------------------------------------
+    // VIEW 2 RENDERING: COMPARAISON PAR CHARGEMENT (A vs B)
+    // -------------------------------------------------------------------------
+    function renderCompareView(vA, vB) {
+      const selA = document.getElementById("compare-select-a");
+      const selB = document.getElementById("compare-select-b");
+
+      const makeOptions = (selectedId) =>
+        versions
+          .map((v, i) => {
+            const prefix = i === 0 ? "🟢 [Plus récent] " : `🕒 [v${versions.length - i}] `;
+            return `<option value="${v.id}" ${v.id === selectedId ? "selected" : ""}>${prefix}${v.periodLabel} — ${v.tag}</option>`;
+          })
+          .join("");
+
+      selA.innerHTML = makeOptions(vA.id);
+      selB.innerHTML = makeOptions(vB.id);
+
+      const kA = vA.kpis;
+      const kB = vB.kpis;
+
+      document.getElementById("compare-kpi-grid").innerHTML = `
+        <div class="kpi-card">
+          <div class="kpi-label">Écart d'Impressions (A vs B)</div>
+          <div class="kpi-val">${kA.impressions.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Réf. B : ${kB.impressions.toLocaleString("fr-FR")}</span>
+            ${formatDelta(kA.impressions, kB.impressions)}
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Écart Membres touchés (A vs B)</div>
+          <div class="kpi-val">${kA.membersReached.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Réf. B : ${kB.membersReached.toLocaleString("fr-FR")}</span>
+            ${formatDelta(kA.membersReached, kB.membersReached)}
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Écart Interactions (A vs B)</div>
+          <div class="kpi-val">${kA.totalInteractions.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Réf. B : ${kB.totalInteractions.toLocaleString("fr-FR")}</span>
+            ${formatDelta(kA.totalInteractions, kB.totalInteractions)}
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Écart Abonnés totaux (A vs B)</div>
+          <div class="kpi-val">${kA.totalFollowers.toLocaleString("fr-FR")}</div>
+          <div class="kpi-sub">
+            <span>Réf. B : ${kB.totalFollowers.toLocaleString("fr-FR")}</span>
+            ${formatDelta(kA.totalFollowers, kB.totalFollowers)}
+          </div>
+        </div>
+      `;
+
+      // Daily overlap comparison chart (union of dates in A and B)
+      const mapA = Object.fromEntries(vA.dailySeries.map((d) => [d.dateIso, d]));
+      const mapB = Object.fromEntries(vB.dailySeries.map((d) => [d.dateIso, d]));
+      const allIso = Array.from(new Set([...Object.keys(mapA), ...Object.keys(mapB)])).sort();
+      const overlapCount = allIso.filter((iso) => mapA[iso] && mapB[iso]).length;
+
+      document.getElementById("overlap-subtitle").textContent =
+        `${overlapCount} jour(s) commun(s) en chevauchement sur ${allIso.length} dates comparées entre A (${vA.periodLabel}) et B (${vB.periodLabel})`;
+
+      const ctxOverlap = document.getElementById("chart-compare-overlap").getContext("2d");
+      if (chartCompareOverlap) chartCompareOverlap.destroy();
+      chartCompareOverlap = new Chart(ctxOverlap, {
+        type: "bar",
+        data: {
+          labels: allIso.map((iso) => (mapA[iso] || mapB[iso]).dateFr.slice(0, 5)),
+          datasets: [
+            {
+              label: `Impr. B (${vB.periodLabel})`,
+              data: allIso.map((iso) => (mapB[iso] ? mapB[iso].impressions : null)),
+              backgroundColor: "rgba(251, 191, 36, 0.45)",
+              borderColor: "#fbbf24",
+              borderWidth: 1
+            },
+            {
+              label: `Impr. A (${vA.periodLabel})`,
+              data: allIso.map((iso) => (mapA[iso] ? mapA[iso].impressions : null)),
+              backgroundColor: "rgba(56, 189, 248, 0.65)",
+              borderColor: "#38bdf8",
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: {
+            legend: { labels: { color: "#cbd5e1" } },
+            tooltip: {
+              callbacks: {
+                afterBody: (items) => {
+                  const iso = allIso[items[0].dataIndex];
+                  if (mapA[iso] && mapB[iso]) {
+                    const diffImp = mapA[iso].impressions - mapB[iso].impressions;
+                    const diffInt = mapA[iso].interactions - mapB[iso].interactions;
+                    const s1 = diffImp >= 0 ? "+" : "";
+                    const s2 = diffInt >= 0 ? "+" : "";
+                    return `Écart sur ce jour : ${s1}${diffImp} impr. | ${s2}${diffInt} inter.`;
+                  }
+                  return mapA[iso] ? "Jour uniquement présent dans A" : "Jour uniquement présent dans B";
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } }
+          }
+        }
+      });
+
+      // Multi-version trajectory chart
+      renderVersionsChart(vA, vB);
+
+      // Post-by-post progression table (A vs B)
+      const postsA = Object.fromEntries(vA.topPosts.map((p) => [p.url, p]));
+      const postsB = Object.fromEntries(vB.topPosts.map((p) => [p.url, p]));
+      const allUrls = Array.from(new Set([...Object.keys(postsA), ...Object.keys(postsB)]));
+
+      const postDiffs = allUrls
+        .map((url) => {
+          const pA = postsA[url];
+          const pB = postsB[url];
+          const impA = pA ? pA.impressions : null;
+          const impB = pB ? pB.impressions : null;
+          const intA = pA ? pA.interactions : null;
+          const intB = pB ? pB.interactions : null;
+          const dImp = impA !== null && impB !== null ? impA - impB : (impA !== null ? impA : 0);
+          const dInt = intA !== null && intB !== null ? intA - intB : (intA !== null ? intA : 0);
+          let statusBadge = '<span class="badge">Suivi A & B</span>';
+          if (pA && !pB) statusBadge = '<span class="badge green">Nouveau dans A</span>';
+          else if (!pA && pB) statusBadge = '<span class="sheet-pill">Sorti du Top A</span>';
+          return {
+            url,
+            title: (pA || pB).title,
+            dateFr: (pA || pB).dateFr,
+            statusBadge,
+            impB,
+            impA,
+            dImp,
+            intB,
+            intA,
+            dInt,
+            sortKey: Math.max(impA || 0, impB || 0)
+          };
+        })
+        .sort((a, b) => (b.dImp - a.dImp) || (b.sortKey - a.sortKey));
+
+      document.querySelector("#table-compare-posts tbody").innerHTML = postDiffs
+        .map((row) => {
+          const fmtDeltaCell = (val, bothExist) => {
+            if (!bothExist) return `<span style="color:var(--muted);">-</span>`;
+            if (val === 0) return `<span class="delta flat">= 0</span>`;
+            const sign = val > 0 ? "+" : "";
+            return `<span class="delta ${val > 0 ? "up" : "down"}">${sign}${val.toLocaleString("fr-FR")}</span>`;
+          };
+          const both = row.impA !== null && row.impB !== null;
+          return `
+          <tr>
+            <td><a href="${row.url}" target="_blank" rel="noopener">${row.title}</a></td>
+            <td>${row.dateFr}</td>
+            <td>${row.statusBadge}</td>
+            <td class="num">${row.impB !== null ? row.impB.toLocaleString("fr-FR") : "-"}</td>
+            <td class="num">${row.impA !== null ? row.impA.toLocaleString("fr-FR") : "-"}</td>
+            <td class="num">${fmtDeltaCell(row.dImp, both)}</td>
+            <td class="num">${row.intB !== null ? row.intB.toLocaleString("fr-FR") : "-"}</td>
+            <td class="num">${row.intA !== null ? row.intA.toLocaleString("fr-FR") : "-"}</td>
+            <td class="num">${fmtDeltaCell(row.dInt, both)}</td>
+          </tr>`;
+        })
+        .join("");
+
+      renderVersionsHistoryTable(vA, vB);
+    }
+
+    function renderVersionsChart(vA, vB) {
+      const ctx = document.getElementById("chart-versions").getContext("2d");
+      if (chartVersions) chartVersions.destroy();
+      const chronological = [...versions].reverse();
+      chartVersions = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: chronological.map((v) => `${v.periodLabel} (${v.tag})`),
+          datasets: [
+            {
+              label: "Impressions",
+              data: chronological.map((v) => v.kpis.impressions),
+              backgroundColor: chronological.map((v) =>
+                v.id === vA.id ? "#38bdf8" : v.id === vB.id ? "rgba(251, 191, 36, 0.7)" : "rgba(56, 189, 248, 0.25)"
+              ),
+              yAxisID: "y"
+            },
+            {
+              label: "Membres touchés",
+              data: chronological.map((v) => v.kpis.membersReached),
+              backgroundColor: chronological.map((v) =>
+                v.id === vA.id ? "#818cf8" : "rgba(129, 140, 248, 0.35)"
+              ),
+              yAxisID: "y"
+            },
+            {
+              type: "line",
+              label: "Interactions",
+              data: chronological.map((v) => v.kpis.totalInteractions),
+              borderColor: "#34d399",
+              backgroundColor: "#34d399",
+              yAxisID: "y1"
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: "#cbd5e1" } } },
+          scales: {
+            x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y: { position: "left", ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y1: { position: "right", ticks: { color: "#34d399" }, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+    }
+
+    function renderVersionsHistoryTable(vA, vB) {
       const tbody = document.querySelector("#table-versions tbody");
       tbody.innerHTML = versions
         .map((v, idx) => {
-          const isCurrent = v.id === active.id;
+          const isA = v.id === vA.id;
+          const isB = v.id === vB.id;
+          const roleBadge = isA
+            ? '<span class="badge green">Chargement A</span>'
+            : isB
+            ? '<span class="badge" style="color:var(--amber);border-color:var(--amber);">Chargement B</span>'
+            : idx === 0
+            ? '<span class="sheet-pill">Plus récent</span>'
+            : '<span class="sheet-pill">Archive</span>';
           return `
-          <tr style="cursor:pointer;${isCurrent ? "background:rgba(56,189,248,0.1);" : ""}" data-vid="${v.id}">
-            <td>${idx === 0 ? '<span class="badge green">Plus récent</span>' : '<span class="badge">Archive</span>'}</td>
+          <tr style="cursor:pointer;${isA ? "background:rgba(56,189,248,0.1);" : isB ? "background:rgba(251,191,36,0.07);" : ""}" data-vid="${v.id}">
+            <td>${roleBadge}</td>
             <td><strong>${v.periodLabel}</strong></td>
             <td>${v.tag} <span style="color:var(--muted);font-size:0.76rem;">(${v.fileName})</span></td>
             <td>${v.sheetNames.length} onglets</td>
             <td class="num">${v.kpis.impressions.toLocaleString("fr-FR")}</td>
             <td class="num">${v.kpis.membersReached.toLocaleString("fr-FR")}</td>
+            <td class="num">${v.kpis.impressionsPerMember.toLocaleString("fr-FR")}</td>
             <td class="num">${v.kpis.totalInteractions.toLocaleString("fr-FR")}</td>
             <td class="num">${v.kpis.totalFollowers.toLocaleString("fr-FR")}</td>
             <td class="num">+${v.kpis.newFollowersSum}</td>
@@ -1329,14 +1760,19 @@
 
       tbody.querySelectorAll("tr[data-vid]").forEach((row) => {
         row.addEventListener("click", () => {
-          selectedVersionId = row.getAttribute("data-vid");
+          compareIdA = row.getAttribute("data-vid");
+          ensureCompareSelection();
           renderAll();
         });
       });
 
       const notesEl = document.getElementById("notes-container");
-      notesEl.innerHTML = active.notes.length
-        ? active.notes.map((n) => `<div>💡 <em>${n}</em></div>`).join("")
+      const combinedNotes = [
+        ...vA.notes.map((n) => `[A - ${vA.periodLabel}] ${n}`),
+        ...(vB.id !== vA.id ? vB.notes.map((n) => `[B - ${vB.periodLabel}] ${n}`) : [])
+      ];
+      notesEl.innerHTML = combinedNotes.length
+        ? combinedNotes.map((n) => `<div>💡 <em>${n}</em></div>`).join("")
         : "";
     }
 
@@ -1361,7 +1797,8 @@
         }
       }
       versions = sortVersions(versions);
-      selectedVersionId = "LATEST";
+      compareIdA = versions[0].id;
+      ensureCompareSelection();
       saveState();
       renderAll();
     }
@@ -1381,24 +1818,28 @@
       handleFilesImport(e.dataTransfer.files);
     });
 
-    document.getElementById("btn-latest").addEventListener("click", () => {
-      selectedVersionId = "LATEST";
+    document.getElementById("compare-select-a").addEventListener("change", (e) => {
+      compareIdA = e.target.value;
+      if (compareIdB === compareIdA) {
+        const alt = versions.find((v) => v.id !== compareIdA);
+        if (alt) compareIdB = alt.id;
+      }
       renderAll();
     });
 
-    document.getElementById("version-select").addEventListener("change", (e) => {
-      selectedVersionId = e.target.value;
+    document.getElementById("compare-select-b").addEventListener("change", (e) => {
+      compareIdB = e.target.value;
       renderAll();
     });
 
     document.getElementById("btn-delete-version").addEventListener("click", () => {
       if (versions.length <= 1) {
-        alert("Il doit rester au moins une version affichée.");
+        alert("Il doit rester au moins une version chargée.");
         return;
       }
-      const { active } = getActiveAndPreviousVersion();
-      versions = versions.filter((v) => v.id !== active.id);
-      selectedVersionId = "LATEST";
+      versions = versions.filter((v) => v.id !== compareIdA);
+      compareIdA = null;
+      ensureCompareSelection();
       saveState();
       renderAll();
     });
@@ -1443,7 +1884,9 @@
           return;
         }
         versions = sortVersions(list);
-        selectedVersionId = "LATEST";
+        compareIdA = null;
+        compareIdB = null;
+        ensureCompareSelection();
         saveState();
         renderAll();
         document.getElementById("backup-status-line").textContent =
