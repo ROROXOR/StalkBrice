@@ -852,20 +852,27 @@
 
   <script>
     // =========================================================================
-    // 1. AUTHENTICATION (loads ./auth.json, initialized with StalkBrice2026)
+    // 1. AUTHENTICATION (SHA-256 hash verification, no plaintext password in code)
     // =========================================================================
-    // shortcut: client-side password check in browser, upgrade to backend auth if hosted publicly
-    let expectedPassword = "StalkBrice2026";
+    // shortcut: client-side SHA-256 hash check, upgrade to backend auth or AES-GCM payload encryption if hosted publicly
+    let expectedPasswordHash = "8dc419137384f1f93cdaedc43c7608e68a3653112573b2595db20f7c0eb562c6";
     const AUTH_SESSION_KEY = "stalkbrice_auth_ok_v1";
     const STORAGE_KEY = "stalkbrice_versions_v1";
+
+    async function sha256Hex(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    }
 
     async function loadAuthJson() {
       try {
         const res = await fetch("./auth.json", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
-          if (data && typeof data.password === "string" && data.password.trim()) {
-            expectedPassword = data.password.trim();
+          if (data && typeof data.passwordHash === "string" && data.passwordHash.trim()) {
+            expectedPasswordHash = data.passwordHash.trim().toLowerCase();
+          } else if (data && typeof data.password === "string" && data.password.trim()) {
+            expectedPasswordHash = await sha256Hex(data.password.trim());
           }
         }
       } catch (_) { }
@@ -878,10 +885,11 @@
       renderAll();
     }
 
-    document.getElementById("auth-form").addEventListener("submit", (e) => {
+    document.getElementById("auth-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const val = document.getElementById("auth-pwd").value;
-      if (val === expectedPassword) {
+      const inputHash = await sha256Hex(val);
+      if (inputHash === expectedPasswordHash) {
         document.getElementById("auth-error").textContent = "";
         unlockApp();
       } else {
